@@ -679,4 +679,316 @@ TEST (intersection_tr, test27)
                                      triangle_t { t4, t5, t6 }));
 }
 
+
+TEST (intersection_tr, test28)
+{
+    point_t t1 (0, 0, 0);
+    point_t t2 (5, 0, 0);
+    point_t t3 (0, 5, 0);
+
+    point_t t4 (1, 1, 0);
+    point_t t5 (1, 1, 0);
+    point_t t6 (1, 1, 1);
+
+    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
+                                     triangle_t { t4, t5, t6 }));
+}
+
+// ----------------------------------------------------------------------------------
+
+TEST (point_triangle, test1)
+{
+    point_t p1 (0, 0, 0);
+    point_t p2 (5, 0, 0);
+    point_t p3 (0, 5, 0);
+
+    point_t p (1, 1, 0);
+
+    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p));
+}
+
+TEST (point_triangle, test2)
+{
+    point_t p1 (0, 0, 0);
+    point_t p2 (5, 0, 0);
+    point_t p3 (0, 5, 0);
+
+    point_t p (5.001, 0, 0);
+
+    EXPECT_FALSE (check_triangle_point (triangle_t { p1, p2, p3 }, p));
+}
+
+TEST (point_triangle, test3)
+{
+    point_t p1 (-5, 3, 2);
+    point_t p2 (11, -6, 10);
+    point_t p3 (2, 3, 4);
+
+    point_t p4 (2, 3, 4);
+    point_t p5 (11, -6, 10);
+    point_t p6 (-5, 3, 2);
+
+    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p4));
+    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p5));
+    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p6));
+}
+
+// ----------------------------------------------------------------------------------
+
+TEST (line_triangle, test1)
+{
+    point_t p1 (5, 0, 0);
+    point_t p2 (0, 5, 0);
+    point_t p3 (0, 0, 0);
+
+    point_t p4 (5, 0, 0);
+    point_t p5 (10, 10, 10);   
+
+    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+}
+
+TEST (line_triangle, test2)
+{
+    point_t p1 (5, 0, 0);
+    point_t p2 (0, 5, 0);
+    point_t p3 (0, 0, 0);
+
+    point_t p4 (1, 1, 0);
+    point_t p5 (1, 1, 10);   
+
+    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+}
+
+TEST (line_triangle, test3)
+{
+    point_t p1 (5, 0, 0);
+    point_t p2 (0, 5, 0);
+    point_t p3 (0, 0, 0);
+
+    point_t p4 (-1, -1, 0);
+    point_t p5 (1, 1, 10);   
+
+    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+}
+
+TEST (line_triangle, test4)
+{
+    point_t p1 (5, 0, 0);
+    point_t p2 (0, 5, 0);
+    point_t p3 (0, 0, 0);
+
+    point_t p4 (1, 1, -10);
+    point_t p5 (1, 1, 10);   
+
+    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+}
+
+// ----------------------------------------------------------------------------------
+
+TEST (line_point, test1)
+{
+    point_t p1 (2, 0, 0);
+    point_t p2 (0, 2, 0);
+
+    point_t p3 (1, 1, 0);
+    EXPECT_TRUE (check_line_point (p1, p2, p3));
+}
+
+TEST(line_point, test2)
+{
+    point_t A(0, 0, 0);
+    point_t B(1, 1, 1);
+    point_t P(2, 2, 2);
+
+    EXPECT_FALSE(check_line_point(A, B, P));
+}
+
+TEST(line_point, test3)
+{
+    point_t A(1, 2, 3);
+    point_t B(4, 5, 6);
+    point_t P(1, 2, 3);
+
+    EXPECT_TRUE(check_line_point(A, B, P));
+}
+
+TEST(line_point, test4)
+{
+    point_t A(1, 2, 3);
+    point_t B(4, 5, 6);
+    point_t P(4, 5, 6);
+
+    EXPECT_TRUE(check_line_point(A, B, P));
+}
+
+TEST(line_point, test5)
+{
+    point_t A(-1000, -2000, -3000);
+    point_t B(-500, -1000, -1500);
+    point_t P(-750, -1500, -2250);
+
+    EXPECT_TRUE(check_line_point(A, B, P));
+}
+
+TEST(line_point, test6)
+{
+    point_t A(-1000, -2000, -3000);
+    point_t B(-500, -1000, -1500);
+    point_t P(-1200, -2400, -3600);
+
+    EXPECT_FALSE(check_line_point(A, B, P));
+}
+
+TEST(line_point, test7)
+{
+    point_t A(0, 0, 0);
+    point_t B(1, 1, 1);
+    point_t P(1.0 + 1e-10, 1.0 + 1e-10, 1.0 + 1e-10);
+
+    EXPECT_TRUE(check_line_point(A, B, P));
+}
+
+TEST(line_point, test8)
+{
+    point_t A(0, 0, 0);
+    point_t B(1, 1, 1);
+    point_t P(1000, 1000, 1000);
+
+    EXPECT_FALSE(check_line_point(A, B, P));
+}
+
+// ----------------------------------------------------------------------------------
+
+TEST (point_point, test1)
+{
+    point_t p1 (10, 11, 101);
+    point_t p2 (9.99, 11, 101);
+    point_t p3 (9.99, 11, 101);
+
+    EXPECT_TRUE (check_point_point (p2, p3));
+    EXPECT_FALSE (check_point_point (p1, p2));
+}
+
+// ----------------------------------------------------------------------------------
+
+TEST (line_line, test1)
+{
+    point_t p1 (0, 0, 0);
+    point_t p2 (10, 10, 0);
+    point_t p3 (10, 0, 0);
+    point_t p4 (0, 10, 0);
+
+    EXPECT_TRUE (check_line_line (p1, p2, p3, p4));
+}
+
+TEST(line_line, test2) 
+{
+    point_t A(0, 0, 0);
+    point_t B(10, 10, 10);
+    point_t C(0, 10, 10);
+    point_t D(10, 0, 0);
+
+    EXPECT_TRUE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test3) 
+{
+    point_t A(0, 0, 0);
+    point_t B(1, 0, 0);
+    point_t C(0, 1, 1);
+    point_t D(1, 1, 1);
+
+    EXPECT_FALSE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test4) 
+{
+    point_t A(0, 0, 0);
+    point_t B(5, 5, 5);
+    point_t C(3, 3, 3);
+    point_t D(8, 8, 8);
+
+    EXPECT_TRUE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test5) 
+{
+    point_t A(0, 0, 0);
+    point_t B(2, 2, 2);
+    point_t C(3, 3, 3);
+    point_t D(5, 5, 5);
+
+    EXPECT_FALSE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test6) 
+{
+    point_t A(0, 0, 0);
+    point_t B(1, 1, 1);
+    point_t C(0, 0, 1);
+    point_t D(1, 1, 2);
+
+    EXPECT_FALSE(check_line_line(A, B, C, D));
+}
+
+TEST (line_line, test7)
+{
+    point_t p1 (0, 0, 0);
+    point_t p2 (10, 10, 10);
+    point_t p3 (0, 0, 0);
+    point_t p4 (-100, 2, 5);
+
+    EXPECT_TRUE (check_line_line (p1, p2, p3, p4));
+}
+
+TEST(line_line, test8) 
+{
+    point_t A(1.2, 3.5, -2.1);
+    point_t B(7.8, 9.6, 4.3);
+    point_t C(8.0, 2.1, 0.5);
+    point_t D(0.5, 10.0, 3.0);
+
+    EXPECT_FALSE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test9) 
+{
+    point_t A(-2.3, 1.1, 0.0);
+    point_t B(4.7, 3.9, 2.5);
+    point_t C(4.7, 3.9, 2.5);
+    point_t D(10.0, -1.2, 3.4);
+
+    EXPECT_TRUE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test10) 
+{
+    point_t A(-1.1, 0.0, 2.3);
+    point_t B(1.5, 2.7, -0.8);
+    point_t C(0.5, 1.3, 1.0);
+    point_t D(3.1, 0.9, 0.5);
+
+    EXPECT_FALSE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test11) 
+{
+    point_t A(-3.2, 4.1, -1.0);
+    point_t B(2.0, 1.5, 3.6);
+    point_t C(5.1, 0.3, 2.2);
+    point_t D(7.0, -1.0, 4.5);
+
+    EXPECT_FALSE(check_line_line(A, B, C, D));
+}
+
+TEST(line_line, test12) 
+{
+    point_t A(0.7, -2.3, 1.1);
+    point_t B(6.5, 3.2, -0.8);
+    point_t C(5.0, 0.0, 2.5);
+    point_t D(1.2, 4.1, -1.2);
+
+    EXPECT_FALSE(check_line_line(A, B, C, D));
+}
+
 // ----------------------------------------------------------------------------------

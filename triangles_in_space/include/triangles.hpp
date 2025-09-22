@@ -18,6 +18,20 @@ struct point_t
 
     point_t () { };
     point_t (double x, double y, double z) : x_ { x }, y_ { y }, z_ { z } { };
+
+    point_t operator+(const point_t& p) const { return { x_ + p.x_, y_ + p.y_, z_ + p.z_ }; }
+    point_t operator-(const point_t& p) const { return { x_ - p.x_, y_ - p.y_, z_ - p.z_ }; }
+    point_t operator*(double k) const { return { x_ * k, y_ * k, z_ * k }; }
+    bool operator==(const point_t& p) const 
+    { 
+        return (std::fabs (x_ - p.x_) < epsilon && 
+                std::fabs (y_ - p.y_) < epsilon &&
+                std::fabs (z_ - p.z_) < epsilon);
+    }
+
+    double get_x () const { return x_; }
+    double get_y () const { return y_; }
+    double get_z () const { return z_; }
 };
 
 // ----------------------------------------------------------------------------------
@@ -41,6 +55,12 @@ public:
 
     vector_t cross_product (const vector_t& b) const;
     double scalar_product (const vector_t& b) const;
+    bool zero_vector () const 
+    {
+        return ((std::fabs (x_) < epsilon) &&
+                (std::fabs (y_) < epsilon) && 
+                (std::fabs (z_) < epsilon));
+    }
 };
 
 inline vector_t::vector_t (const point_t& a, const point_t& b)
@@ -70,9 +90,9 @@ inline double vector_t::scalar_product (const vector_t& b) const
 
 class triangle_t
 {
-    point_t a_;
-    point_t b_;
-    point_t c_;
+    point_t a_ {};
+    point_t b_ {};
+    point_t c_ {};
 
     vector_t N_; // the plane equation (N, X - a) = 0
 
@@ -87,19 +107,20 @@ public:
 
     double distance_point_plane_tr (const point_t& p) const;
     bool point_lie_in_plane_tr (const point_t& p) const;
+    bool degenerate_tr () const;
+    bool triangle_is_point () const { return ((a_ == b_) && (a_ == c_)); }
+    bool triangle_is_line () const { return (degenerate_tr() && !triangle_is_point()); }
 };
+
+inline bool triangle_t::degenerate_tr () const
+{
+    return ((std::fabs(N_.get_x()) < epsilon) &&
+            (std::fabs(N_.get_y()) < epsilon) && 
+            (std::fabs(N_.get_z()) < epsilon));
+}
 
 inline triangle_t::triangle_t (const point_t& a, const point_t& b, const point_t& c)
 {
-    vector_t vec_1 { a, b };
-    vector_t vec_2 { a, c };
-    vector_t cross = vec_1.cross_product (vec_2);
-    double res     = cross.scalar_product (cross);
-    if (res < epsilon_for_degenerate)
-    {
-        std::cerr << "Degenerate triangles are not accepted!\n";
-        exit (1);
-    }
     a_ = a;
     b_ = b;
     c_ = c;
@@ -129,6 +150,15 @@ bool check_intersection (const triangle_t& tr_1, const triangle_t& tr_2);
 bool check_same_sign_distance (const triangle_t& tr_1, const triangle_t& tr_2);
 bool check_intersection_tr_of_line (const triangle_t& tr_1, const triangle_t& tr_2);
 std::pair<double, double> projection (char axis, const triangle_t& tr_1, const triangle_t& tr_2);
+bool check_triangle_point (const triangle_t& tr_1, const point_t& p);
+bool check_triangle_line (const triangle_t& tr_1, const point_t& p1, const point_t& p2);
+bool check_line_point (const point_t& line_p1, const point_t& line_p2, const point_t& p);
+bool check_point_point (const point_t& p1, const point_t& p2);
+bool check_line_line (const point_t& line1_p1, const point_t& line1_p2,
+                      const point_t& line2_p1, const point_t& line2_p2);
+bool check_different_degeneracies (const triangle_t& tr_1, const triangle_t& tr_2);
+std::pair<point_t, point_t> select_ends_segment (const point_t& p1, 
+                              const point_t& p2, const point_t& p3);
 
 // ----------------------------------------------------------------------------------
 
