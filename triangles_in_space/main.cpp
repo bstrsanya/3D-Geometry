@@ -33,6 +33,6 @@ int main ()
 
     for (auto tmp: triangle_num)
     {
-        std::cout << tmp + 1 << "\n";
+        std::cout << tmp << "\n";
     }
 }
