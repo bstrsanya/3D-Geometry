@@ -187,6 +187,26 @@ bool check_intersection_tr_of_line (const triangle_t& tr_1, const triangle_t& tr
     // D = direction of the common line
     vector_t D = tr_1.get_N ().cross_product (tr_2.get_N ());
 
+    // triangles lie in same plane
+    if (D.zero_vector ())
+    {
+        return (check_triangle_line (tr_1, tr_2.get_a (), tr_2.get_b ()) ||
+                check_triangle_line (tr_1, tr_2.get_a (), tr_2.get_c ()) ||
+                check_triangle_line (tr_1, tr_2.get_c (), tr_2.get_b ()) ||
+
+                check_triangle_point (tr_1, tr_2.get_a ()) ||
+                check_triangle_point (tr_1, tr_2.get_b ()) || 
+                check_triangle_point (tr_1, tr_2.get_c ()) ||
+                
+                check_triangle_line (tr_2, tr_1.get_a (), tr_1.get_b ()) ||
+                check_triangle_line (tr_2, tr_1.get_a (), tr_1.get_c ()) ||
+                check_triangle_line (tr_2, tr_1.get_c (), tr_1.get_b ()) ||
+
+                check_triangle_point (tr_2, tr_1.get_a ()) ||
+                check_triangle_point (tr_2, tr_1.get_b ()) || 
+                check_triangle_point (tr_2, tr_1.get_c ()));
+    }
+
     double D_x = std::fabs (D.get_x ());
     double D_y = std::fabs (D.get_y ());
     double D_z = std::fabs (D.get_z ());
@@ -205,8 +225,6 @@ bool check_intersection_tr_of_line (const triangle_t& tr_1, const triangle_t& tr
     std::pair<double, double> pair_2 = projection (axis, tr_2, tr_1);
     double t3 = pair_2.first;
     double t4 = pair_2.second;
-
-    // std::cout << t1 << "\n" << t2 << "\n" << t3 << "\n" << t4 << "\n";
 
     return ((std::min (t1, t2) <= std::max (t3, t4)) && 
             (std::min (t3, t4) <= std::max (t1, t2)));
@@ -268,6 +286,13 @@ std::pair<double, double> projection (char axis, const triangle_t& tr_1, const t
     {
         std::swap (project_point_2, project_point_mid);
         std::swap (point_2, point_mid);
+    }
+
+    // point b lies in plane tr_2, but others do not
+    if (tr_2.point_lie_in_plane_tr (tr_1.get_b ()))
+    {
+        std::swap (project_point_1, project_point_mid);
+        std::swap (point_1, point_mid);
     }
 
     // counting projections on the selected axis
