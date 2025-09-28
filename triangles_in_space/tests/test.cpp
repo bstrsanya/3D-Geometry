@@ -713,8 +713,8 @@ TEST(intersection_tr, test30)
     point_t r2(5, 0, 0);
     point_t r3(0, 5, 0);
 
-    point_t b1(2.51, 2.51, 0); 
-    point_t b2(1, 1, 2); 
+    point_t b1(1, 1, 2); 
+    point_t b2(2.51, 2.51, 0); 
     point_t b3(2, 2, -2);
 
     EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
@@ -800,6 +800,356 @@ TEST(intersection_tr, test36)
     point_t b1(2.51, 2.51, 0); 
     point_t b2(1, 1, 2); 
     point_t b3(10, 10, -2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test37)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 2, 3); 
+    point_t b2(-0.1, 0.5, 0); 
+    point_t b3(2, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test38)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 2, 3); 
+    point_t b3(-0.1, 0.5, 0); 
+    point_t b2(2, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test39)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 2, 3); 
+    point_t b3(-0.1, 0.5, 0); 
+    point_t b1(2, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test40)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 2, 3); 
+    point_t b1(-0.1, 0.5, 0); 
+    point_t b3(2, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test41)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 2, 3); 
+    point_t b1(-0.1, 0.5, 0); 
+    point_t b2(2, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test42)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 2, 3); 
+    point_t b2(-0.1, 0.5, 0); 
+    point_t b1(2, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test43)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 2, 3); 
+    point_t b3(-0.1, 0.5, 0); 
+    point_t b1(2, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test44)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 2, 3); 
+    point_t b2(0.5, 0.5, 0); 
+    point_t b3(2, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test45)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 2, 3); 
+    point_t b3(0.5, 0.5, 0); 
+    point_t b2(2, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test46)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 2, 3); 
+    point_t b1(0.5, 0.5, 0); 
+    point_t b3(2, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test47)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 2, 3); 
+    point_t b3(0.5, 0.5, 0); 
+    point_t b1(2, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test48)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 2, 3); 
+    point_t b2(0.5, 0.5, 0); 
+    point_t b1(2, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test49)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 2, 3); 
+    point_t b1(0.5, 0.5, 0); 
+    point_t b2(2, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test50)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 1, -3); 
+    point_t b1(3, 3, 0); 
+    point_t b2(1, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test51)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 1, -3); 
+    point_t b2(3, 3, 0); 
+    point_t b1(1, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test52)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 1, -3); 
+    point_t b2(3, 3, 0); 
+    point_t b3(1, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test53)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 1, -3); 
+    point_t b3(3, 3, 0); 
+    point_t b2(1, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test54)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 1, -3); 
+    point_t b1(3, 3, 0); 
+    point_t b3(1, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test55)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 1, -3); 
+    point_t b3(3, 3, 0); 
+    point_t b1(1, 0, 2);
+
+    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test56)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 1, -3); 
+    point_t b3(3, 3, 0); 
+    point_t b1(3, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test57)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b2(0, 1, -3); 
+    point_t b1(3, 3, 0); 
+    point_t b3(3, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test58)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 1, -3); 
+    point_t b2(3, 3, 0); 
+    point_t b3(3, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test59)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b1(0, 1, -3); 
+    point_t b3(3, 3, 0); 
+    point_t b2(3, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test60)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 1, -3); 
+    point_t b2(3, 3, 0); 
+    point_t b1(3, 0, 2);
+
+    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
+                                   triangle_t{b1, b2, b3}));
+}
+
+TEST(intersection_tr, test61)
+{
+    point_t r1(0, 0, 0);
+    point_t r2(2, 0, 0);
+    point_t r3(0, 2, 0);
+
+    point_t b3(0, 1, -3); 
+    point_t b1(3, 3, 0); 
+    point_t b2(3, 0, 2);
 
     EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
                                    triangle_t{b1, b2, b3}));

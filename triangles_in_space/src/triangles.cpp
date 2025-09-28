@@ -274,7 +274,8 @@ std::pair<double, double> projection (char axis, const triangle_t& tr_1, const t
         return { project_point_1, project_point_2 };
     }
 
-    // otherwise, looking for the right point_mid
+    // By default, the middle point is point B, below are 3 cases where point B cannot be middle
+
     if (tr_2.distance_point_plane_tr (tr_1.get_b ()) * 
         tr_2.distance_point_plane_tr (tr_1.get_c ()) > 0)
     {
@@ -288,8 +289,9 @@ std::pair<double, double> projection (char axis, const triangle_t& tr_1, const t
         std::swap (point_2, point_mid);
     }
 
-    // point b lies in plane tr_2, but others do not
-    if (tr_2.point_lie_in_plane_tr (tr_1.get_b ()))
+    if (tr_2.point_lie_in_plane_tr (tr_1.get_b ()) && 
+        tr_2.distance_point_plane_tr (tr_1.get_a ()) * 
+        tr_2.distance_point_plane_tr (tr_1.get_c ()) < 0)
     {
         std::swap (project_point_1, project_point_mid);
         std::swap (point_1, point_mid);
