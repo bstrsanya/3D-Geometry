@@ -110,7 +110,7 @@ inline double octree_t::nearest_power_of_two (double num)
 }
 
 inline void octree_t::recursive_construction_tree (const point_t& p_min, const point_t& p_max,
-                                         std::vector<std::size_t>& num_triangles, int depth_recursion)
+                                                   std::vector<std::size_t>& num_triangles, int depth_recursion)
 {
     depth_recursion++;
     
@@ -133,7 +133,7 @@ inline void octree_t::recursive_construction_tree (const point_t& p_min, const p
                                           point_t {p_max.x_, p_max.y_, p_min.z_},
                                           point_t {p_min.x_, p_max.y_, p_min.z_},
                                           point_t {p_min.x_, p_min.y_, p_min.z_},
-                                          point_t {p_max.x_, p_min.y_, p_min.z_}};                                          ;
+                                          point_t {p_max.x_, p_min.y_, p_min.z_}};
 
 
     for (auto n_tr = num_triangles.begin(); n_tr != num_triangles.end(); n_tr++)
