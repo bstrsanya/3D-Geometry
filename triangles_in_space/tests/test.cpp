@@ -311,8 +311,7 @@ TEST (intersection_tr, test1)
     point_t t5 (0.5, 1, 1);
     point_t t6 (2, 2, 0);
 
-    EXPECT_TRUE (check_intersection_tr_of_line (triangle_t { t1, t2, t3 },
-                                                triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection_tr_of_line(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test2)
@@ -325,8 +324,7 @@ TEST (intersection_tr, test2)
     point_t t5 (1, 1, 1);
     point_t t6 (2, 2, 0);
 
-    EXPECT_TRUE (check_intersection_tr_of_line (triangle_t { t1, t2, t3 },
-                                                triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection_tr_of_line(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test3)
@@ -339,8 +337,7 @@ TEST (intersection_tr, test3)
     point_t t5 (0, 1, 0);
     point_t t6 (1, 1, 1);
 
-    EXPECT_TRUE (check_intersection_tr_of_line (triangle_t { t1, t2, t3 },
-                                                triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection_tr_of_line(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test4)
@@ -353,8 +350,7 @@ TEST (intersection_tr, test4)
     point_t t5 (-1, 1, 0);
     point_t t6 (1, 1, 1);
 
-    EXPECT_TRUE (check_intersection_tr_of_line (triangle_t { t1, t2, t3 },
-                                                triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection_tr_of_line(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test5)
@@ -367,8 +363,8 @@ TEST (intersection_tr, test5)
     point_t t5 (-1, 1, 2);
     point_t t6 (1, 1, 1);
 
-    EXPECT_TRUE (check_intersection_tr_of_line (triangle_t { t1, t2, t3 },
-                                                triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection_tr_of_line(triangle_t { t4, t5, t6 }));
+
 }
 
 TEST (intersection_tr, test6)
@@ -381,8 +377,7 @@ TEST (intersection_tr, test6)
     point_t t5 (-1, 1, 0);
     point_t t6 (1, 1, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test7)
@@ -395,8 +390,7 @@ TEST (intersection_tr, test7)
     point_t t5 (1, 1, 1);
     point_t t6 (2, 2, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test8)
@@ -409,8 +403,7 @@ TEST (intersection_tr, test8)
     point_t t5 (1, -1, 1);
     point_t t6 (2, 2, 1);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test9)
@@ -423,8 +416,7 @@ TEST (intersection_tr, test9)
     point_t t5 (3, 2, 1);
     point_t t6 (2, 3, 1);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test10)
@@ -437,8 +429,7 @@ TEST (intersection_tr, test10)
     point_t t5 (3, 1, 1);
     point_t t6 (3, -1, 1);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test11)
@@ -451,8 +442,7 @@ TEST (intersection_tr, test11)
     point_t t5 (0, 0, 1);
     point_t t6 (0, 1, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test12)
@@ -465,8 +455,7 @@ TEST (intersection_tr, test12)
     point_t t5 (1, 0, 0);
     point_t t6 (0, 0, 1);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test13)
@@ -479,8 +468,7 @@ TEST (intersection_tr, test13)
     point_t t5 (0, 0, 1);
     point_t t6 (1, 1, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test14)
@@ -493,8 +481,7 @@ TEST (intersection_tr, test14)
     point_t t5 (1, 0, 1);
     point_t t6 (0, 1, 1);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test15)
@@ -507,8 +494,7 @@ TEST (intersection_tr, test15)
     point_t t5 (3, 2, -1);
     point_t t6 (2, 3, 1);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test16)
@@ -521,8 +507,7 @@ TEST (intersection_tr, test16)
     point_t t5 (3, 2, 0);
     point_t t6 (2, 3, 0);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test17)
@@ -535,8 +520,7 @@ TEST (intersection_tr, test17)
     point_t t5 (-1, 0, 1);
     point_t t6 (0, -1, 1);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test18)
@@ -549,8 +533,7 @@ TEST (intersection_tr, test18)
     point_t t5 (1, 1, 1);
     point_t t6 (2, 2, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test19)
@@ -563,8 +546,7 @@ TEST (intersection_tr, test19)
     point_t t5 (0, 1, 0);
     point_t t6 (2, 2, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test20)
@@ -577,8 +559,7 @@ TEST (intersection_tr, test20)
     point_t t5 (3, 2, 0);
     point_t t6 (2, 3, 0);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test21)
@@ -591,8 +572,8 @@ TEST (intersection_tr, test21)
     point_t t5 (1, 0, 0);
     point_t t6 (1, 1, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
+
 }
 
 TEST (intersection_tr, test22)
@@ -605,8 +586,7 @@ TEST (intersection_tr, test22)
     point_t t5 (0.5, 0.5, 1);
     point_t t6 (0.5, 1, -1);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test23)
@@ -619,8 +599,7 @@ TEST (intersection_tr, test23)
     point_t t5 (4, 3, 1);
     point_t t6 (3, 4, 0);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test24)
@@ -633,8 +612,7 @@ TEST (intersection_tr, test24)
     point_t t5 (1.5, 0.5, 0.001);
     point_t t6 (0.5, 1.5, 0.001);
 
-    EXPECT_FALSE (check_intersection (triangle_t { t1, t2, t3 },
-                                      triangle_t { t4, t5, t6 }));
+    EXPECT_FALSE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test25)
@@ -647,8 +625,7 @@ TEST (intersection_tr, test25)
     point_t t5 (1, 1, 0);
     point_t t6 (2, 1, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test26)
@@ -661,8 +638,7 @@ TEST (intersection_tr, test26)
     point_t t5 (1, 1, 1);
     point_t t6 (2, 0, 1);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test27)
@@ -675,8 +651,7 @@ TEST (intersection_tr, test27)
     point_t t5 (2, 1, 0);
     point_t t6 (1, 2, 0);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST (intersection_tr, test28)
@@ -689,50 +664,46 @@ TEST (intersection_tr, test28)
     point_t t5 (1, 1, 0);
     point_t t6 (1, 1, 1);
 
-    EXPECT_TRUE (check_intersection (triangle_t { t1, t2, t3 },
-                                     triangle_t { t4, t5, t6 }));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST(intersection_tr, test29)
 {
-    point_t r1(0, 0, 0);
-    point_t r2(5, 0, 0);
-    point_t r3(0, 5, 0);
+    point_t t1(0, 0, 0);
+    point_t t2(5, 0, 0);
+    point_t t3(0, 5, 0);
 
-    point_t b1(1, 1, 0); 
-    point_t b2(1, 1, 2); 
-    point_t b3(2, 2, -2);
+    point_t t4(1, 1, 0); 
+    point_t t5(1, 1, 2); 
+    point_t t6(2, 2, -2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST(intersection_tr, test30)
 {
-    point_t r1(0, 0, 0);
-    point_t r2(5, 0, 0);
-    point_t r3(0, 5, 0);
+    point_t t1(0, 0, 0);
+    point_t t2(5, 0, 0);
+    point_t t3(0, 5, 0);
 
-    point_t b1(1, 1, 2); 
-    point_t b2(2.51, 2.51, 0); 
-    point_t b3(2, 2, -2);
+    point_t t4(1, 1, 2); 
+    point_t t5(2.51, 2.51, 0); 
+    point_t t6(2, 2, -2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST(intersection_tr, test31)
 {
-    point_t r1(0, 0, 0);
-    point_t r2(5, 0, 0);
-    point_t r3(0, 5, 0);
+    point_t t1(0, 0, 0);
+    point_t t2(5, 0, 0);
+    point_t t3(0, 5, 0);
 
-    point_t b1(2, 0, 0);
-    point_t b2(2, 0, 3);
-    point_t b3(2, -10, -3);
+    point_t t4(2, 0, 0);
+    point_t t5(2, 0, 3);
+    point_t t6(2, -10, -3);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { t1, t2, t3 }).check_intersection(triangle_t { t4, t5, t6 }));
 }
 
 TEST(intersection_tr, test32)
@@ -745,8 +716,7 @@ TEST(intersection_tr, test32)
     point_t b2(2, 0, 3);
     point_t b3(2, -10, -3);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test33)
@@ -759,8 +729,7 @@ TEST(intersection_tr, test33)
     point_t b2(2, 0, 3);
     point_t b3(-10, -10, -3);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test34)
@@ -773,8 +742,7 @@ TEST(intersection_tr, test34)
     point_t b2(2, 0, 3);
     point_t b3(-10, -10, -3);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test35)
@@ -787,8 +755,7 @@ TEST(intersection_tr, test35)
     point_t b2(2, 0, 3);
     point_t b3(10, 10, -3);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test36)
@@ -801,8 +768,7 @@ TEST(intersection_tr, test36)
     point_t b2(1, 1, 2); 
     point_t b3(10, 10, -2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test37)
@@ -815,8 +781,7 @@ TEST(intersection_tr, test37)
     point_t b2(-0.1, 0.5, 0); 
     point_t b3(2, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test38)
@@ -829,8 +794,7 @@ TEST(intersection_tr, test38)
     point_t b3(-0.1, 0.5, 0); 
     point_t b2(2, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test39)
@@ -843,8 +807,7 @@ TEST(intersection_tr, test39)
     point_t b3(-0.1, 0.5, 0); 
     point_t b1(2, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test40)
@@ -857,8 +820,7 @@ TEST(intersection_tr, test40)
     point_t b1(-0.1, 0.5, 0); 
     point_t b3(2, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test41)
@@ -871,8 +833,7 @@ TEST(intersection_tr, test41)
     point_t b1(-0.1, 0.5, 0); 
     point_t b2(2, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test42)
@@ -885,8 +846,7 @@ TEST(intersection_tr, test42)
     point_t b2(-0.1, 0.5, 0); 
     point_t b1(2, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test43)
@@ -899,8 +859,7 @@ TEST(intersection_tr, test43)
     point_t b3(-0.1, 0.5, 0); 
     point_t b1(2, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test44)
@@ -913,8 +872,7 @@ TEST(intersection_tr, test44)
     point_t b2(0.5, 0.5, 0); 
     point_t b3(2, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test45)
@@ -927,8 +885,7 @@ TEST(intersection_tr, test45)
     point_t b3(0.5, 0.5, 0); 
     point_t b2(2, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test46)
@@ -941,8 +898,7 @@ TEST(intersection_tr, test46)
     point_t b1(0.5, 0.5, 0); 
     point_t b3(2, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test47)
@@ -955,8 +911,7 @@ TEST(intersection_tr, test47)
     point_t b3(0.5, 0.5, 0); 
     point_t b1(2, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test48)
@@ -969,8 +924,7 @@ TEST(intersection_tr, test48)
     point_t b2(0.5, 0.5, 0); 
     point_t b1(2, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test49)
@@ -983,8 +937,7 @@ TEST(intersection_tr, test49)
     point_t b1(0.5, 0.5, 0); 
     point_t b2(2, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test50)
@@ -997,8 +950,7 @@ TEST(intersection_tr, test50)
     point_t b1(3, 3, 0); 
     point_t b2(1, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test51)
@@ -1011,8 +963,7 @@ TEST(intersection_tr, test51)
     point_t b2(3, 3, 0); 
     point_t b1(1, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test52)
@@ -1025,8 +976,7 @@ TEST(intersection_tr, test52)
     point_t b2(3, 3, 0); 
     point_t b3(1, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test53)
@@ -1039,8 +989,7 @@ TEST(intersection_tr, test53)
     point_t b3(3, 3, 0); 
     point_t b2(1, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test54)
@@ -1053,8 +1002,7 @@ TEST(intersection_tr, test54)
     point_t b1(3, 3, 0); 
     point_t b3(1, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test55)
@@ -1067,8 +1015,7 @@ TEST(intersection_tr, test55)
     point_t b3(3, 3, 0); 
     point_t b1(1, 0, 2);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test56)
@@ -1081,8 +1028,7 @@ TEST(intersection_tr, test56)
     point_t b3(3, 3, 0); 
     point_t b1(3, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test57)
@@ -1095,8 +1041,7 @@ TEST(intersection_tr, test57)
     point_t b1(3, 3, 0); 
     point_t b3(3, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test58)
@@ -1109,8 +1054,7 @@ TEST(intersection_tr, test58)
     point_t b2(3, 3, 0); 
     point_t b3(3, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test59)
@@ -1123,8 +1067,7 @@ TEST(intersection_tr, test59)
     point_t b3(3, 3, 0); 
     point_t b2(3, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test60)
@@ -1137,8 +1080,7 @@ TEST(intersection_tr, test60)
     point_t b2(3, 3, 0); 
     point_t b1(3, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr, test61)
@@ -1151,8 +1093,7 @@ TEST(intersection_tr, test61)
     point_t b1(3, 3, 0); 
     point_t b2(3, 0, 2);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 // ----------------------------------------------------------------------------------
@@ -1165,7 +1106,7 @@ TEST (point_triangle, test1)
 
     point_t p (1, 1, 0);
 
-    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_point (p));
 }
 
 TEST (point_triangle, test2)
@@ -1176,7 +1117,7 @@ TEST (point_triangle, test2)
 
     point_t p (5.001, 0, 0);
 
-    EXPECT_FALSE (check_triangle_point (triangle_t { p1, p2, p3 }, p));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_point (p));
 }
 
 TEST (point_triangle, test3)
@@ -1189,9 +1130,10 @@ TEST (point_triangle, test3)
     point_t p5 (11, -6, 10);
     point_t p6 (-5, 3, 2);
 
-    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p4));
-    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p5));
-    EXPECT_TRUE (check_triangle_point (triangle_t { p1, p2, p3 }, p6));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_point (p4));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_point (p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_point (p6));
+
 }
 
 // ----------------------------------------------------------------------------------
@@ -1205,7 +1147,7 @@ TEST (line_triangle, test1)
     point_t p4 (5, 0, 0);
     point_t p5 (10, 10, 10);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test2)
@@ -1217,7 +1159,7 @@ TEST (line_triangle, test2)
     point_t p4 (1, 1, 0);
     point_t p5 (1, 1, 10);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test3)
@@ -1229,7 +1171,7 @@ TEST (line_triangle, test3)
     point_t p4 (-1, -1, 0);
     point_t p5 (1, 1, 10);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test4)
@@ -1241,7 +1183,7 @@ TEST (line_triangle, test4)
     point_t p4 (1, 1, -10);
     point_t p5 (1, 1, 10);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test5)
@@ -1253,7 +1195,7 @@ TEST (line_triangle, test5)
     point_t p4 (3, 2, 0);
     point_t p5 (1, 1, 10);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test6)
@@ -1265,7 +1207,7 @@ TEST (line_triangle, test6)
     point_t p4 (3.05, 2, 0);
     point_t p5 (1, 1, 10);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test7)
@@ -1277,7 +1219,7 @@ TEST (line_triangle, test7)
     point_t p4 (2, 2, -1);
     point_t p5 (1, 1, 10);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test8)
@@ -1289,7 +1231,7 @@ TEST (line_triangle, test8)
     point_t p4 (0, 0, 10);
     point_t p5 (5, 5, -10);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test9)
@@ -1301,7 +1243,7 @@ TEST (line_triangle, test9)
     point_t p4 (0, 0, 10.1);
     point_t p5 (5, 5, -10);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test10)
@@ -1313,7 +1255,7 @@ TEST (line_triangle, test10)
     point_t p4 (3, -1, 0);
     point_t p5 (6, 2, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test11)
@@ -1325,7 +1267,7 @@ TEST (line_triangle, test11)
     point_t p4 (3, -1.1, 0);
     point_t p5 (6, 2, 0);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test12)
@@ -1337,7 +1279,7 @@ TEST (line_triangle, test12)
     point_t p4 (1, 1, 0);
     point_t p5 (4, 0, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test13)
@@ -1349,7 +1291,7 @@ TEST (line_triangle, test13)
     point_t p4 (-2, 2, 0);
     point_t p5 (4, 0, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test14)
@@ -1361,7 +1303,7 @@ TEST (line_triangle, test14)
     point_t p4 (-2, 2, 0);
     point_t p5 (4, -0.1, 0);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test15)
@@ -1373,7 +1315,7 @@ TEST (line_triangle, test15)
     point_t p4 (10, 10, 0);
     point_t p5 (0.1, 5, 0);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test16)
@@ -1385,7 +1327,7 @@ TEST (line_triangle, test16)
     point_t p4 (10, 10, 0);
     point_t p5 (0, 5, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test17)
@@ -1397,7 +1339,7 @@ TEST (line_triangle, test17)
     point_t p4 (3, 1, 0);
     point_t p5 (2, 2, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test18)
@@ -1409,7 +1351,7 @@ TEST (line_triangle, test18)
     point_t p4 (0, 1, 0);
     point_t p5 (2, 2, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test19)
@@ -1421,7 +1363,7 @@ TEST (line_triangle, test19)
     point_t p4 (0, 1, 0);
     point_t p5 (2, 0.6, 0);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test20)
@@ -1433,7 +1375,7 @@ TEST (line_triangle, test20)
     point_t p4 (0, 0, 0);
     point_t p5 (10, 10, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test21)
@@ -1445,7 +1387,7 @@ TEST (line_triangle, test21)
     point_t p4 (0.5, 3, 0);
     point_t p5 (0, 0, 0);   
 
-    EXPECT_TRUE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_TRUE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 TEST (line_triangle, test22)
@@ -1457,7 +1399,7 @@ TEST (line_triangle, test22)
     point_t p4 (0.49, 3, 0);
     point_t p5 (0, 0, 0);   
 
-    EXPECT_FALSE (check_triangle_line (triangle_t { p1, p2, p3 }, p4, p5));
+    EXPECT_FALSE ((triangle_t { p1, p2, p3 }).check_triangle_line (p4, p5));
 }
 
 // ----------------------------------------------------------------------------------
@@ -1468,7 +1410,7 @@ TEST (line_point, test1)
     point_t p2 (0, 2, 0);
 
     point_t p3 (1, 1, 0);
-    EXPECT_TRUE (check_line_point (p1, p2, p3));
+    EXPECT_TRUE (triangle_t::check_line_point (p1, p2, p3));
 }
 
 TEST(line_point, test2)
@@ -1477,7 +1419,7 @@ TEST(line_point, test2)
     point_t B(1, 1, 1);
     point_t P(2, 2, 2);
 
-    EXPECT_FALSE(check_line_point(A, B, P));
+    EXPECT_FALSE(triangle_t::check_line_point(A, B, P));
 }
 
 TEST(line_point, test3)
@@ -1486,7 +1428,7 @@ TEST(line_point, test3)
     point_t B(4, 5, 6);
     point_t P(1, 2, 3);
 
-    EXPECT_TRUE(check_line_point(A, B, P));
+    EXPECT_TRUE(triangle_t::check_line_point(A, B, P));
 }
 
 TEST(line_point, test4)
@@ -1495,7 +1437,7 @@ TEST(line_point, test4)
     point_t B(4, 5, 6);
     point_t P(4, 5, 6);
 
-    EXPECT_TRUE(check_line_point(A, B, P));
+    EXPECT_TRUE(triangle_t::check_line_point(A, B, P));
 }
 
 TEST(line_point, test5)
@@ -1504,7 +1446,7 @@ TEST(line_point, test5)
     point_t B(-500, -1000, -1500);
     point_t P(-750, -1500, -2250);
 
-    EXPECT_TRUE(check_line_point(A, B, P));
+    EXPECT_TRUE(triangle_t::check_line_point(A, B, P));
 }
 
 TEST(line_point, test6)
@@ -1513,7 +1455,7 @@ TEST(line_point, test6)
     point_t B(-500, -1000, -1500);
     point_t P(-1200, -2400, -3600);
 
-    EXPECT_FALSE(check_line_point(A, B, P));
+    EXPECT_FALSE(triangle_t::check_line_point(A, B, P));
 }
 
 TEST(line_point, test7)
@@ -1522,7 +1464,7 @@ TEST(line_point, test7)
     point_t B(1, 1, 1);
     point_t P(1.0 + 1e-10, 1.0 + 1e-10, 1.0 + 1e-10);
 
-    EXPECT_TRUE(check_line_point(A, B, P));
+    EXPECT_TRUE(triangle_t::check_line_point(A, B, P));
 }
 
 TEST(line_point, test8)
@@ -1531,7 +1473,7 @@ TEST(line_point, test8)
     point_t B(1, 1, 1);
     point_t P(1000, 1000, 1000);
 
-    EXPECT_FALSE(check_line_point(A, B, P));
+    EXPECT_FALSE(triangle_t::check_line_point(A, B, P));
 }
 
 // ----------------------------------------------------------------------------------
@@ -1542,8 +1484,8 @@ TEST (point_point, test1)
     point_t p2 (9.99, 11, 101);
     point_t p3 (9.99, 11, 101);
 
-    EXPECT_TRUE (check_point_point (p2, p3));
-    EXPECT_FALSE (check_point_point (p1, p2));
+    EXPECT_TRUE (triangle_t::check_point_point (p2, p3));
+    EXPECT_FALSE (triangle_t::check_point_point (p1, p2));
 }
 
 // ----------------------------------------------------------------------------------
@@ -1555,7 +1497,7 @@ TEST (line_line, test1)
     point_t p3 (10, 0, 0);
     point_t p4 (0, 10, 0);
 
-    EXPECT_TRUE (check_line_line (p1, p2, p3, p4));
+    EXPECT_TRUE (triangle_t::check_line_line (p1, p2, p3, p4));
 }
 
 TEST(line_line, test2) 
@@ -1565,7 +1507,7 @@ TEST(line_line, test2)
     point_t C(0, 10, 10);
     point_t D(10, 0, 0);
 
-    EXPECT_TRUE(check_line_line(A, B, C, D));
+    EXPECT_TRUE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test3) 
@@ -1575,7 +1517,7 @@ TEST(line_line, test3)
     point_t C(0, 1, 1);
     point_t D(1, 1, 1);
 
-    EXPECT_FALSE(check_line_line(A, B, C, D));
+    EXPECT_FALSE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test4) 
@@ -1585,7 +1527,7 @@ TEST(line_line, test4)
     point_t C(3, 3, 3);
     point_t D(8, 8, 8);
 
-    EXPECT_TRUE(check_line_line(A, B, C, D));
+    EXPECT_TRUE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test5) 
@@ -1595,7 +1537,7 @@ TEST(line_line, test5)
     point_t C(3, 3, 3);
     point_t D(5, 5, 5);
 
-    EXPECT_FALSE(check_line_line(A, B, C, D));
+    EXPECT_FALSE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test6) 
@@ -1605,7 +1547,7 @@ TEST(line_line, test6)
     point_t C(0, 0, 1);
     point_t D(1, 1, 2);
 
-    EXPECT_FALSE(check_line_line(A, B, C, D));
+    EXPECT_FALSE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST (line_line, test7)
@@ -1615,7 +1557,7 @@ TEST (line_line, test7)
     point_t p3 (0, 0, 0);
     point_t p4 (-100, 2, 5);
 
-    EXPECT_TRUE (check_line_line (p1, p2, p3, p4));
+    EXPECT_TRUE (triangle_t::check_line_line (p1, p2, p3, p4));
 }
 
 TEST(line_line, test8) 
@@ -1625,7 +1567,7 @@ TEST(line_line, test8)
     point_t C(8.0, 2.1, 0.5);
     point_t D(0.5, 10.0, 3.0);
 
-    EXPECT_FALSE(check_line_line(A, B, C, D));
+    EXPECT_FALSE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test9) 
@@ -1635,7 +1577,7 @@ TEST(line_line, test9)
     point_t C(4.7, 3.9, 2.5);
     point_t D(10.0, -1.2, 3.4);
 
-    EXPECT_TRUE(check_line_line(A, B, C, D));
+    EXPECT_TRUE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test10) 
@@ -1645,7 +1587,7 @@ TEST(line_line, test10)
     point_t C(0.5, 1.3, 1.0);
     point_t D(3.1, 0.9, 0.5);
 
-    EXPECT_FALSE(check_line_line(A, B, C, D));
+    EXPECT_FALSE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test11) 
@@ -1655,7 +1597,7 @@ TEST(line_line, test11)
     point_t C(5.1, 0.3, 2.2);
     point_t D(7.0, -1.0, 4.5);
 
-    EXPECT_FALSE(check_line_line(A, B, C, D));
+    EXPECT_FALSE(triangle_t::check_line_line(A, B, C, D));
 }
 
 TEST(line_line, test12) 
@@ -1665,7 +1607,7 @@ TEST(line_line, test12)
     point_t C(5.0, 0.0, 2.5);
     point_t D(1.2, 4.1, -1.2);
 
-    EXPECT_FALSE(check_line_line(A, B, C, D));
+    EXPECT_FALSE(triangle_t::check_line_line(A, B, C, D));
 }
 
 // ----------------------------------------------------------------------------------
@@ -1681,10 +1623,8 @@ TEST(intersection_tr1, test1)
     point_t b3(1, 5, 0);
     point_t b4(1.5, 0.5, 0);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                    triangle_t{b1, b2, b3}));
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                    triangle_t{b4, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b4, b2, b3 }));
 }
 
 TEST(intersection_tr1, test2)
@@ -1698,10 +1638,8 @@ TEST(intersection_tr1, test2)
     point_t b3(1, 5, 0);
     point_t b4(2, 0, 0);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                    triangle_t{b1, b2, b3}));
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                    triangle_t{b4, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b4, b2, b3 }));
 }
 
 TEST(intersection_tr1, test3)
@@ -1714,8 +1652,7 @@ TEST(intersection_tr1, test3)
     point_t b2(3, 3, 0);
     point_t b3(5, 2, 0);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr1, test4)
@@ -1728,8 +1665,7 @@ TEST(intersection_tr1, test4)
     point_t b2(2, 0, 0);
     point_t b3(2, 2, 0);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr1, test5)
@@ -1742,8 +1678,7 @@ TEST(intersection_tr1, test5)
     point_t b2(5, 0, 0);
     point_t b3(2, 3, 0);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr1, test6)
@@ -1756,8 +1691,7 @@ TEST(intersection_tr1, test6)
     point_t b2(3, 1, 0);
     point_t b3(1, 3, 0);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr1, test7)
@@ -1770,8 +1704,7 @@ TEST(intersection_tr1, test7)
     point_t b2(4, 1, 0);
     point_t b3(1, 3, 0);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr1, test8) 
@@ -1784,8 +1717,7 @@ TEST(intersection_tr1, test8)
     point_t b2(3, 0, 0);
     point_t b3(3, 2, 0);
 
-    EXPECT_FALSE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_FALSE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr1, test9)
@@ -1798,8 +1730,7 @@ TEST(intersection_tr1, test9)
     point_t b2(4, -1, 0);
     point_t b3(0, 5, 0);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 TEST(intersection_tr1, test10)
@@ -1812,8 +1743,7 @@ TEST(intersection_tr1, test10)
     point_t b2(4, 2, 0);
     point_t b3(1, 3, 0);
 
-    EXPECT_TRUE(check_intersection(triangle_t{r1, r2, r3},
-                                   triangle_t{b1, b2, b3}));
+    EXPECT_TRUE ((triangle_t { r1, r2, r3 }).check_intersection(triangle_t { b1, b2, b3 }));
 }
 
 // ----------------------------------------------------------------------------------

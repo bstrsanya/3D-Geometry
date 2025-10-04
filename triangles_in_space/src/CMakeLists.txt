@@ -1,4 +1,0 @@
-project(triangle)
-
-include_directories(${CMAKE_SOURCE_DIR}/include)
-add_library(triangle triangles.cpp)

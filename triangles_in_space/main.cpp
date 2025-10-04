@@ -1,8 +1,10 @@
-#include "triangles.hpp"
 #include <algorithm>
 #include <iostream>
 #include <set>
 #include <vector>
+
+#include "triangles.hpp"
+#include "octree.hpp"
 
 int main ()
 {
@@ -17,22 +19,11 @@ int main ()
         array_triangle.push_back ({ p1, p2, p3 });
     }
 
-    std::set<std::size_t> triangle_num;
-
-    for (std::size_t i = 0; i < N; ++i)
-    {
-        for (std::size_t j = i + 1; j < N; ++j)
-        {
-            if (check_intersection (array_triangle[i], array_triangle[j]))
-            {
-                triangle_num.insert (i);
-                triangle_num.insert (j);
-            }
-        }
-    }
-
+    octree_t tree(array_triangle);
+    std::set<std::size_t> triangle_num = tree.get_num_tr_intersection ();
+    
     for (auto tmp: triangle_num)
     {
-        std::cout << tmp << "\n";
+         std::cout << tmp << "\n";
     }
 }
