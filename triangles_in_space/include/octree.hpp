@@ -39,7 +39,7 @@ private:
 
     double count_bounding_cube ();
     double nearest_power_of_two (double num);
-    void recursive_construction_tree (const point_t& p_min, const point_t& p_max,
+    void recursive_construction_tree (const vector_t& p_min, const vector_t& p_max,
                                       std::vector<std::size_t>& num_triangles, int dep);
 
     void naive_verification (std::vector<std::size_t>& num1);  
@@ -55,8 +55,8 @@ inline octree_t::octree_t (std::vector<triangle_t>& array_triangle) : array_tria
 {
     double max_coordinate = count_bounding_cube ();
 
-    point_t p_max = point_t (max_coordinate, max_coordinate, max_coordinate);
-    point_t p_min = point_t (-max_coordinate, -max_coordinate, -max_coordinate);
+    vector_t p_max = vector_t (max_coordinate, max_coordinate, max_coordinate);
+    vector_t p_min = vector_t (-max_coordinate, -max_coordinate, -max_coordinate);
 
     std::vector<std::size_t> num_triangles{};
     for (std::size_t i = 0; i < array_triangle.size(); i++)
@@ -69,26 +69,26 @@ inline octree_t::octree_t (std::vector<triangle_t>& array_triangle) : array_tria
 
 inline double octree_t::count_bounding_cube ()
 {
-    point_t p_min {MAX_DOUBLE, MAX_DOUBLE, MAX_DOUBLE};
-    point_t p_max {MIN_DOUBLE, MIN_DOUBLE, MIN_DOUBLE};
+    vector_t p_min {MAX_DOUBLE, MAX_DOUBLE, MAX_DOUBLE};
+    vector_t p_max {MIN_DOUBLE, MIN_DOUBLE, MIN_DOUBLE};
     for (const auto &tr : array_triangle_) 
     {
-        const point_t verts[] = { tr.get_a(), tr.get_b(), tr.get_c() };
+        const vector_t verts[] = { tr.get_a(), tr.get_b(), tr.get_c() };
         for (const auto &v : verts)
         {
-            p_min.x_ = std::min(p_min.x_, v.x_);
-            p_min.y_ = std::min(p_min.y_, v.y_);
-            p_min.z_ = std::min(p_min.z_, v.z_);
+            p_min.cor_x = std::min(p_min.cor_x, v.cor_x);
+            p_min.cor_y = std::min(p_min.cor_y, v.cor_y);
+            p_min.cor_z = std::min(p_min.cor_z, v.cor_z);
 
-            p_max.y_ = std::max(p_max.y_, v.y_);
-            p_max.x_ = std::max(p_max.x_, v.x_);
-            p_max.z_ = std::max(p_max.z_, v.z_);
+            p_max.cor_y = std::max(p_max.cor_y, v.cor_y);
+            p_max.cor_x = std::max(p_max.cor_x, v.cor_x);
+            p_max.cor_z = std::max(p_max.cor_z, v.cor_z);
         }
     }
 
-    double max_coordinate = std::max (std::fabs (p_min.x_), std::fabs (p_max.x_));
-    max_coordinate = std::max (max_coordinate, std::max (std::fabs (p_min.y_), std::fabs (p_max.y_)));
-    max_coordinate = std::max (max_coordinate, std::max (std::fabs (p_min.z_), std::fabs (p_max.z_)));
+    double max_coordinate = std::max (std::fabs (p_min.cor_x), std::fabs (p_max.cor_x));
+    max_coordinate = std::max (max_coordinate, std::max (std::fabs (p_min.cor_y), std::fabs (p_max.cor_y)));
+    max_coordinate = std::max (max_coordinate, std::max (std::fabs (p_min.cor_z), std::fabs (p_max.cor_z)));
 
     max_coordinate = nearest_power_of_two (max_coordinate);
 
@@ -109,7 +109,7 @@ inline double octree_t::nearest_power_of_two (double num)
     return static_cast<double> (x + 1);
 }
 
-inline void octree_t::recursive_construction_tree (const point_t& p_min, const point_t& p_max,
+inline void octree_t::recursive_construction_tree (const vector_t& p_min, const vector_t& p_max,
                                                    std::vector<std::size_t>& num_triangles, int depth_recursion)
 {
     depth_recursion++;
@@ -122,18 +122,18 @@ inline void octree_t::recursive_construction_tree (const point_t& p_min, const p
         return;
     }
 
-    point_t central_point = (p_min + p_max) / 2;
+    vector_t central_point = (p_min + p_max) / 2;
 
     std::array<std::vector<std::size_t>, OCTREE_CHILD_COUNT> array_space{};
-    std::array<point_t, OCTREE_CHILD_COUNT> array_point = {
-                                          point_t {p_max.x_, p_max.y_, p_max.z_},
-                                          point_t {p_min.x_, p_max.y_, p_max.z_},
-                                          point_t {p_min.x_, p_min.y_, p_max.z_},
-                                          point_t {p_max.x_, p_min.y_, p_max.z_},
-                                          point_t {p_max.x_, p_max.y_, p_min.z_},
-                                          point_t {p_min.x_, p_max.y_, p_min.z_},
-                                          point_t {p_min.x_, p_min.y_, p_min.z_},
-                                          point_t {p_max.x_, p_min.y_, p_min.z_}};
+    std::array<vector_t, OCTREE_CHILD_COUNT> array_point = {
+                                          vector_t {p_max.cor_x, p_max.cor_y, p_max.cor_z},
+                                          vector_t {p_min.cor_x, p_max.cor_y, p_max.cor_z},
+                                          vector_t {p_min.cor_x, p_min.cor_y, p_max.cor_z},
+                                          vector_t {p_max.cor_x, p_min.cor_y, p_max.cor_z},
+                                          vector_t {p_max.cor_x, p_max.cor_y, p_min.cor_z},
+                                          vector_t {p_min.cor_x, p_max.cor_y, p_min.cor_z},
+                                          vector_t {p_min.cor_x, p_min.cor_y, p_min.cor_z},
+                                          vector_t {p_max.cor_x, p_min.cor_y, p_min.cor_z}};
 
 
     for (auto n_tr = num_triangles.begin(); n_tr != num_triangles.end(); n_tr++)

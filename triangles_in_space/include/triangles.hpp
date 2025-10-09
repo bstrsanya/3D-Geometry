@@ -7,82 +7,55 @@
 
 const double EPSILON = 1e-7;
 
-// ------------------------------POINT_T---------------------------------------------
-
-struct point_t
-{
-    double x_ = NAN;
-    double y_ = NAN;
-    double z_ = NAN;
-
-    point_t () { };
-    point_t (double x, double y, double z) : x_ { x }, y_ { y }, z_ { z } { };
-
-    point_t operator+(const point_t& p) const { return { x_ + p.x_, y_ + p.y_, z_ + p.z_ }; }
-    point_t operator-(const point_t& p) const { return { x_ - p.x_, y_ - p.y_, z_ - p.z_ }; }
-    point_t operator*(double k) const { return { x_ * k, y_ * k, z_ * k }; }
-    point_t operator/(double k) const { return { x_ / k, y_ / k, z_ / k };}
-    void operator=(const point_t& p) { x_ = p.x_; y_ = p.y_; z_ = p.z_; }
-    bool operator==(const point_t& p) const 
-    { 
-        return (std::fabs (x_ - p.x_) < EPSILON && 
-                std::fabs (y_ - p.y_) < EPSILON &&
-                std::fabs (z_ - p.z_) < EPSILON);
-    }
-
-    double get_x () const { return x_; }
-    double get_y () const { return y_; }
-    double get_z () const { return z_; }
-};
-
-// ----------------------------------------------------------------------------------
-
 // ------------------------------VECTOR_T--------------------------------------------
 
 class vector_t
 {
-    double x_ = NAN;
-    double y_ = NAN;
-    double z_ = NAN;
+public:
+    double cor_x = NAN;
+    double cor_y = NAN;
+    double cor_z = NAN;
 
 public:
-    vector_t () { };
-    vector_t (double x, double y, double z) : x_ { x }, y_ { y }, z_ { z } { };
-    vector_t (const point_t& a, const point_t& b);
+    vector_t () = default;
+    vector_t (double x, double y, double z) : cor_x { x }, cor_y { y }, cor_z { z } { };
+    vector_t (const vector_t& a, const vector_t& b) : cor_x {b.cor_x - a.cor_x}, cor_y {b.cor_y - a.cor_y}, cor_z {b.cor_z - a.cor_z} {};
 
-    double get_x () const { return x_; }
-    double get_y () const { return y_; }
-    double get_z () const { return z_; }
+    vector_t operator+(const vector_t& p) const { return { cor_x + p.cor_x, cor_y + p.cor_y, cor_z + p.cor_z }; }
+    vector_t operator-(const vector_t& p) const { return { cor_x - p.cor_x, cor_y - p.cor_y, cor_z - p.cor_z }; }
+    vector_t operator*(double k)          const { return { cor_x * k, cor_y * k, cor_z * k }; }
+    vector_t operator/(double k)          const { return { cor_x / k, cor_y / k, cor_z / k };}
+    bool operator==(const vector_t& p) const;
 
     vector_t cross_product (const vector_t& b) const;
     double scalar_product (const vector_t& b) const;
-    bool zero_vector () const 
-    {
-        return ((std::fabs (x_) < EPSILON) &&
-                (std::fabs (y_) < EPSILON) && 
-                (std::fabs (z_) < EPSILON));
-    }
+    bool zero_vector () const;
 };
-
-inline vector_t::vector_t (const point_t& a, const point_t& b)
-{
-    x_ = b.x_ - a.x_;
-    y_ = b.y_ - a.y_;
-    z_ = b.z_ - a.z_;
-}
 
 inline vector_t vector_t::cross_product (const vector_t& b) const
 {
-    vector_t c;
-    c.x_ = y_ * b.z_ - z_ * b.y_;
-    c.y_ = z_ * b.x_ - x_ * b.z_;
-    c.z_ = x_ * b.y_ - y_ * b.x_;
-    return c;
+    return vector_t { cor_y * b.cor_z - cor_z * b.cor_y,
+                      cor_z * b.cor_x - cor_x * b.cor_z,
+                      cor_x * b.cor_y - cor_y * b.cor_x};
 }
 
 inline double vector_t::scalar_product (const vector_t& b) const
 {
-    return x_ * b.x_ + y_ * b.y_ + z_ * b.z_;
+    return cor_x * b.cor_x + cor_y * b.cor_y + cor_z * b.cor_z;
+}
+
+inline bool vector_t::operator==(const vector_t& p) const 
+{
+    return (std::fabs (cor_x - p.cor_x) < EPSILON && 
+            std::fabs (cor_y - p.cor_y) < EPSILON &&
+            std::fabs (cor_z - p.cor_z) < EPSILON);
+}
+
+inline bool vector_t::zero_vector () const 
+{
+    return ((std::fabs (cor_x) < EPSILON) &&
+            (std::fabs (cor_y) < EPSILON) && 
+            (std::fabs (cor_z) < EPSILON));
 }
 
 // ----------------------------------------------------------------------------------
@@ -91,66 +64,66 @@ inline double vector_t::scalar_product (const vector_t& b) const
 
 class triangle_t
 {
-    point_t a_ {};
-    point_t b_ {};
-    point_t c_ {};
+    vector_t a_ {};
+    vector_t b_ {};
+    vector_t c_ {};
 
     vector_t N_; // the plane equation (N, X - a) = 0
 
-    point_t p_min_ {};
-    point_t p_max_ {};
+    vector_t p_min_ {};
+    vector_t p_max_ {};
 
 public:
     triangle_t () { };
-    triangle_t (const point_t& a, const point_t& b, const point_t& c);
+    triangle_t (const vector_t& a, const vector_t& b, const vector_t& c);
 
-    point_t get_a () const { return a_; }
-    point_t get_b () const { return b_; }
-    point_t get_c () const { return c_; }
+    vector_t get_a () const { return a_; }
+    vector_t get_b () const { return b_; }
+    vector_t get_c () const { return c_; }
     vector_t get_N () const { return N_; }
 
-    double distance_point_plane_tr (const point_t& p) const;
-    bool point_lie_in_plane_tr (const point_t& p) const;
+    double distance_point_plane_tr (const vector_t& p) const;
+    bool point_lie_in_plane_tr (const vector_t& p) const;
     bool degenerate_tr () const;
     bool triangle_is_point () const { return ((a_ == b_) && (a_ == c_)); }
     bool triangle_is_line () const { return (degenerate_tr() && !triangle_is_point()); }
-    bool triangle_lie_in_space (const point_t& p1, const point_t& p2) const;
+    bool triangle_lie_in_space (const vector_t& p1, const vector_t& p2) const;
 
     bool check_intersection (const triangle_t& other) const;
     bool check_same_sign_distance (const triangle_t& other) const;
     bool check_intersection_tr_of_line (const triangle_t& other) const ;
     std::pair<double, double> projection (char axis, const triangle_t& other) const;
-    bool check_triangle_point (const point_t& p) const;
-    bool check_triangle_line (const point_t& p1, const point_t& p2) const;
-    static bool check_line_point (const point_t& line_p1, const point_t& line_p2, const point_t& p);
-    static bool check_point_point (const point_t& p1, const point_t& p2);
-    static bool check_line_line (const point_t& line1_p1, const point_t& line1_p2,
-                      const point_t& line2_p1, const point_t& line2_p2);
+    bool check_triangle_point (const vector_t& p) const;
+    bool check_triangle_line (const vector_t& p1, const vector_t& p2) const;
+    static bool check_line_point (const vector_t& line_p1, const vector_t& line_p2, const vector_t& p);
+    static bool check_point_point (const vector_t& p1, const vector_t& p2);
+    static bool check_line_line (const vector_t& line1_p1, const vector_t& line1_p2,
+                      const vector_t& line2_p1, const vector_t& line2_p2);
     bool check_different_degeneracies (const triangle_t& other) const;
-    static std::pair<point_t, point_t> select_ends_segment (const point_t& p1, 
-                              const point_t& p2, const point_t& p3);
+    static std::pair<vector_t, vector_t> select_ends_segment (const vector_t& p1, 
+                              const vector_t& p2, const vector_t& p3);
 };
 
 inline bool triangle_t::degenerate_tr () const
 {
-    return ((std::fabs(N_.get_x()) < EPSILON) &&
-            (std::fabs(N_.get_y()) < EPSILON) && 
-            (std::fabs(N_.get_z()) < EPSILON));
+    return ((std::fabs(N_.cor_x) < EPSILON) &&
+            (std::fabs(N_.cor_y) < EPSILON) && 
+            (std::fabs(N_.cor_z) < EPSILON));
 }
 
-inline triangle_t::triangle_t (const point_t& a, const point_t& b, const point_t& c) : 
+inline triangle_t::triangle_t (const vector_t& a, const vector_t& b, const vector_t& c) : 
     a_(a), b_(b), c_(c), N_(vector_t ({ a, b }).cross_product ({ a, c }))
 {
-    p_min_.x_ = std::min(a_.x_, std::min (b_.x_, c_.x_));
-    p_min_.y_ = std::min(a_.y_, std::min (b_.y_, c_.y_));
-    p_min_.z_ = std::min(a_.z_, std::min (b_.z_, c_.z_));
+    p_min_.cor_x = std::min(a_.cor_x, std::min (b_.cor_x, c_.cor_x));
+    p_min_.cor_y = std::min(a_.cor_y, std::min (b_.cor_y, c_.cor_y));
+    p_min_.cor_z = std::min(a_.cor_z, std::min (b_.cor_z, c_.cor_z));
 
-    p_max_.x_ = std::max(a_.x_, std::max (b_.x_, c_.x_));
-    p_max_.y_ = std::max(a_.y_, std::max (b_.y_, c_.y_));
-    p_max_.z_ = std::max(a_.z_, std::max (b_.z_, c_.z_));
+    p_max_.cor_x = std::max(a_.cor_x, std::max (b_.cor_x, c_.cor_x));
+    p_max_.cor_y = std::max(a_.cor_y, std::max (b_.cor_y, c_.cor_y));
+    p_max_.cor_z = std::max(a_.cor_z, std::max (b_.cor_z, c_.cor_z));
 }
 
-inline double triangle_t::distance_point_plane_tr (const point_t& p) const
+inline double triangle_t::distance_point_plane_tr (const vector_t& p) const
 {
     vector_t vec { a_, p };
     double res  = N_.scalar_product (vec);
@@ -158,25 +131,25 @@ inline double triangle_t::distance_point_plane_tr (const point_t& p) const
     return res / norm;
 }
 
-inline bool triangle_t::point_lie_in_plane_tr (const point_t& p) const
+inline bool triangle_t::point_lie_in_plane_tr (const vector_t& p) const
 {
     return (std::fabs (distance_point_plane_tr (p)) < EPSILON);
 }
 
-inline bool triangle_t::triangle_lie_in_space(const point_t& p1, const point_t& p2) const
+inline bool triangle_t::triangle_lie_in_space(const vector_t& p1, const vector_t& p2) const
 {
-    double cube_min_x = std::min(p1.x_, p2.x_);
-    double cube_max_x = std::max(p1.x_, p2.x_);
+    double cube_min_x = std::min(p1.cor_x, p2.cor_x);
+    double cube_max_x = std::max(p1.cor_x, p2.cor_x);
 
-    double cube_min_y = std::min(p1.y_, p2.y_);
-    double cube_max_y = std::max(p1.y_, p2.y_);
+    double cube_min_y = std::min(p1.cor_y, p2.cor_y);
+    double cube_max_y = std::max(p1.cor_y, p2.cor_y);
 
-    double cube_min_z = std::min(p1.z_, p2.z_);
-    double cube_max_z = std::max(p1.z_, p2.z_);
+    double cube_min_z = std::min(p1.cor_z, p2.cor_z);
+    double cube_max_z = std::max(p1.cor_z, p2.cor_z);
 
-    bool overlap_x = !(p_max_.x_ < cube_min_x || p_min_.x_ > cube_max_x);
-    bool overlap_y = !(p_max_.y_ < cube_min_y || p_min_.y_ > cube_max_y);
-    bool overlap_z = !(p_max_.z_ < cube_min_z || p_min_.z_ > cube_max_z);
+    bool overlap_x = !(p_max_.cor_x < cube_min_x || p_min_.cor_x > cube_max_x);
+    bool overlap_y = !(p_max_.cor_y < cube_min_y || p_min_.cor_y > cube_max_y);
+    bool overlap_z = !(p_max_.cor_z < cube_min_z || p_min_.cor_z > cube_max_z);
 
     return overlap_x && overlap_y && overlap_z;
 }
@@ -197,8 +170,8 @@ inline bool triangle_t::check_intersection (const triangle_t& other) const
     // the same kind of degeneracy
     if (triangle_is_line () && other.triangle_is_line ())
     {
-        std::pair<point_t, point_t> pair1 = select_ends_segment (a_, b_, c_);
-        std::pair<point_t, point_t> pair2 = select_ends_segment (
+        std::pair<vector_t, vector_t> pair1 = select_ends_segment (a_, b_, c_);
+        std::pair<vector_t, vector_t> pair2 = select_ends_segment (
                                         other.get_a (), other.get_b (), other.get_c ());
         return check_line_line (pair1.first, pair1.second, pair2.first, pair2.second);
     }
@@ -215,13 +188,13 @@ inline bool triangle_t::check_different_degeneracies (const triangle_t& other) c
 {
     if (triangle_is_line () && other.triangle_is_point ())
     {
-        std::pair<point_t, point_t> pair = select_ends_segment (a_, b_, c_);
+        std::pair<vector_t, vector_t> pair = select_ends_segment (a_, b_, c_);
         return check_line_point (pair.first, pair.second, other.get_a ());
     }
 
     if (!degenerate_tr () && other.triangle_is_line ())
     {
-        std::pair<point_t, point_t> pair = select_ends_segment (
+        std::pair<vector_t, vector_t> pair = select_ends_segment (
                                         other.get_a (), other.get_b (), other.get_c ());
         return check_triangle_line (pair.first, pair.second);
     }
@@ -234,8 +207,8 @@ inline bool triangle_t::check_different_degeneracies (const triangle_t& other) c
     return false;
 }
 
-inline std::pair<point_t, point_t> triangle_t::select_ends_segment (const point_t& p1, 
-                              const point_t& p2, const point_t& p3)
+inline std::pair<vector_t, vector_t> triangle_t::select_ends_segment (const vector_t& p1, 
+                              const vector_t& p2, const vector_t& p3)
 {
     // c_ lies between a_ & b_
     if (check_line_point (p1, p2, p3)) 
@@ -249,7 +222,7 @@ inline std::pair<point_t, point_t> triangle_t::select_ends_segment (const point_
     return {p2, p3};
 };
 
-inline bool triangle_t::check_triangle_point (const point_t& p) const
+inline bool triangle_t::check_triangle_point (const vector_t& p) const
 {
     // guaranteed that point already lies in plane of triangle
     double res_1 = (vector_t{a_, b_}.cross_product(
@@ -265,7 +238,7 @@ inline bool triangle_t::check_triangle_point (const point_t& p) const
             (res_1 <= EPSILON && res_2 <= EPSILON && res_3 <= EPSILON));
 }
 
-inline bool triangle_t::check_triangle_line (const point_t& p1, const point_t& p2) const
+inline bool triangle_t::check_triangle_line (const vector_t& p1, const vector_t& p2) const
 {
     // guaranteed that line intersects plane of triangle (or lies)
 
@@ -282,13 +255,13 @@ inline bool triangle_t::check_triangle_line (const point_t& p1, const point_t& p
     double t = - N_.scalar_product(vector_t{a_, p1}) /
                  N_.scalar_product(vector_t{p1, p2});
 
-    point_t p = p1 + ((p2 - p1) * t);
+    vector_t p = p1 + ((p2 - p1) * t);
 
     return check_triangle_point (p);
 }
 
-inline bool triangle_t::check_line_line (const point_t& line1_p1, const point_t& line1_p2,
-                      const point_t& line2_p1, const point_t& line2_p2)
+inline bool triangle_t::check_line_line (const vector_t& line1_p1, const vector_t& line1_p2,
+                      const vector_t& line2_p1, const vector_t& line2_p2)
 {
     vector_t u{ line1_p1, line1_p2 }; // guiding vector line 1
     vector_t v{ line2_p1, line2_p2 }; // guiding vector line 2
@@ -313,8 +286,8 @@ inline bool triangle_t::check_line_line (const point_t& line1_p1, const point_t&
     double parameter_1 = (v_v * u_w - u_v * v_w) / denominator;
     double parameter_2 = (u_v * u_w - u_u * v_w) / denominator;
   
-    point_t line1_parameter1 = line1_p1 + (line1_p2 - line1_p1) * parameter_1;
-    point_t line2_parameter2 = line2_p1 + (line2_p2 - line2_p1) * parameter_2;
+    vector_t line1_parameter1 = line1_p1 + (line1_p2 - line1_p1) * parameter_1;
+    vector_t line2_parameter2 = line2_p1 + (line2_p2 - line2_p1) * parameter_2;
 
 
     return ((vector_t{line1_parameter1, line2_parameter2}.zero_vector()) &&
@@ -322,7 +295,7 @@ inline bool triangle_t::check_line_line (const point_t& line1_p1, const point_t&
             (parameter_2 >= -EPSILON) && (parameter_2 <= 1 + EPSILON));
 }
 
-inline bool triangle_t::check_line_point (const point_t& line_p1, const point_t& line_p2, const point_t& p)
+inline bool triangle_t::check_line_point (const vector_t& line_p1, const vector_t& line_p2, const vector_t& p)
 {
     vector_t vec1{ line_p1, line_p2 };
     vector_t vec2{ line_p1, p };
@@ -332,17 +305,17 @@ inline bool triangle_t::check_line_point (const point_t& line_p1, const point_t&
         return false;
     }
 
-    return ((std::fmin (line_p1.get_x (), line_p2.get_x ()) - EPSILON <= p.get_x ()) &&
-            (std::fmax (line_p1.get_x (), line_p2.get_x ()) + EPSILON >= p.get_x ()) &&
+    return ((std::fmin (line_p1.cor_x, line_p2.cor_x) - EPSILON <= p.cor_x) &&
+            (std::fmax (line_p1.cor_x, line_p2.cor_x) + EPSILON >= p.cor_x) &&
 
-            (std::fmin (line_p1.get_y (), line_p2.get_y ()) - EPSILON <= p.get_y ()) &&
-            (std::fmax (line_p1.get_y (), line_p2.get_y ()) + EPSILON >= p.get_y ()) &&
+            (std::fmin (line_p1.cor_y, line_p2.cor_y) - EPSILON <= p.cor_y) &&
+            (std::fmax (line_p1.cor_y, line_p2.cor_y) + EPSILON >= p.cor_y) &&
 
-            (std::fmin (line_p1.get_z (), line_p2.get_z ()) - EPSILON <= p.get_z ()) &&
-            (std::fmax (line_p1.get_z (), line_p2.get_z ()) + EPSILON >= p.get_z ()));
+            (std::fmin (line_p1.cor_z, line_p2.cor_z) - EPSILON <= p.cor_z) &&
+            (std::fmax (line_p1.cor_z, line_p2.cor_z) + EPSILON >= p.cor_z));
 }
 
-inline bool triangle_t::check_point_point (const point_t& p1, const point_t& p2)
+inline bool triangle_t::check_point_point (const vector_t& p1, const vector_t& p2)
 {
     return (p1 == p2);
 }
@@ -373,22 +346,14 @@ inline bool triangle_t::check_intersection_tr_of_line (const triangle_t& other) 
                 check_triangle_line (other.get_a (), other.get_c ()) ||
                 check_triangle_line (other.get_c (), other.get_b ()) ||
 
-                check_triangle_point (other.get_a ()) ||
-                check_triangle_point (other.get_b ()) || 
-                check_triangle_point (other.get_c ()) ||
-                
                 other.check_triangle_line (a_, b_) ||
                 other.check_triangle_line (a_, c_) ||
-                other.check_triangle_line (c_, b_) ||
-
-                other.check_triangle_point (a_) ||
-                other.check_triangle_point (b_) || 
-                other.check_triangle_point (c_));
+                other.check_triangle_line (c_, b_));
     }
 
-    double D_x = std::fabs (D.get_x ());
-    double D_y = std::fabs (D.get_y ());
-    double D_z = std::fabs (D.get_z ());
+    double D_x = std::fabs (D.cor_x);
+    double D_y = std::fabs (D.cor_y);
+    double D_z = std::fabs (D.cor_z);
 
     char axis = 'z';
 
@@ -413,26 +378,26 @@ inline std::pair<double, double> triangle_t::projection (char axis, const triang
 {
     // point_1 and point_2 lie on the same side of tr_2 and that point_mid lies on
     // the other side
-    point_t point_1   = a_;
-    point_t point_mid = b_;
-    point_t point_2   = c_;
+    vector_t point_1   = a_;
+    vector_t point_mid = b_;
+    vector_t point_2   = c_;
 
     // choose which axis to project on
-    double project_point_1   = point_1.z_;
-    double project_point_mid = point_mid.z_;
-    double project_point_2   = point_2.z_;
+    double project_point_1   = point_1.cor_z;
+    double project_point_mid = point_mid.cor_z;
+    double project_point_2   = point_2.cor_z;
 
     if (axis == 'x')
     {
-        project_point_1   = point_1.x_;
-        project_point_mid = point_mid.x_;
-        project_point_2   = point_2.x_;
+        project_point_1   = point_1.cor_x;
+        project_point_mid = point_mid.cor_x;
+        project_point_2   = point_2.cor_x;
     }
     else if (axis == 'y')
     {
-        project_point_1   = point_1.y_;
-        project_point_mid = point_mid.y_;
-        project_point_2   = point_2.y_;
+        project_point_1   = point_1.cor_y;
+        project_point_mid = point_mid.cor_y;
+        project_point_2   = point_2.cor_y;
     }
 
     // if two points lie on a plane tr_2
@@ -492,11 +457,11 @@ inline std::pair<double, double> triangle_t::projection (char axis, const triang
 
 // ------------------------------OTHER_FUNC------------------------------------------
 
-std::istream& operator>> (std::istream& in, point_t& p);
+std::istream& operator>> (std::istream& in, vector_t& p);
 
-std::istream& operator>> (std::istream& in, point_t& p)
+std::istream& operator>> (std::istream& in, vector_t& p)
 {
-    in >> p.x_ >> p.y_ >> p.z_;
+    in >> p.cor_x >> p.cor_y >> p.cor_z;
     return in;
 }
 
