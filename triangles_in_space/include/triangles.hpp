@@ -5,114 +5,137 @@
 #include <iostream>
 #include <utility>
 
-const double EPSILON = 1e-7;
+template <typename TypeNum>
+const TypeNum EPSILON = 1e-7;
 
 // ------------------------------VECTOR_T--------------------------------------------
 
+template <typename TypeNum>
 class vector_t
 {
 public:
-    double cor_x = NAN;
-    double cor_y = NAN;
-    double cor_z = NAN;
+    TypeNum cor_x = NAN;
+    TypeNum cor_y = NAN;
+    TypeNum cor_z = NAN;
 
 public:
     vector_t () = default;
-    vector_t (double x, double y, double z) : cor_x { x }, cor_y { y }, cor_z { z } { };
-    vector_t (const vector_t& a, const vector_t& b) : cor_x {b.cor_x - a.cor_x}, cor_y {b.cor_y - a.cor_y}, cor_z {b.cor_z - a.cor_z} {};
+    vector_t (TypeNum x, TypeNum y, TypeNum z) : cor_x { x }, cor_y { y }, cor_z { z } { };
+    vector_t (const vector_t<TypeNum>& a, const vector_t<TypeNum>& b) 
+            : cor_x {b.cor_x - a.cor_x}, cor_y {b.cor_y - a.cor_y}, cor_z {b.cor_z - a.cor_z} {};
 
-    vector_t operator+(const vector_t& p) const { return { cor_x + p.cor_x, cor_y + p.cor_y, cor_z + p.cor_z }; }
-    vector_t operator-(const vector_t& p) const { return { cor_x - p.cor_x, cor_y - p.cor_y, cor_z - p.cor_z }; }
-    vector_t operator*(double k)          const { return { cor_x * k, cor_y * k, cor_z * k }; }
-    vector_t operator/(double k)          const { return { cor_x / k, cor_y / k, cor_z / k };}
+    vector_t operator+(const vector_t<TypeNum>& p) const 
+                                { return { cor_x + p.cor_x, cor_y + p.cor_y, cor_z + p.cor_z }; }
+    vector_t operator-(const vector_t<TypeNum>& p) const 
+                                { return { cor_x - p.cor_x, cor_y - p.cor_y, cor_z - p.cor_z }; }
+    vector_t operator*(TypeNum k) const { return { cor_x * k, cor_y * k, cor_z * k }; }
+    vector_t operator/(TypeNum k) const { return { cor_x / k, cor_y / k, cor_z / k };}
     bool operator==(const vector_t& p) const;
 
-    vector_t cross_product (const vector_t& b) const;
-    double scalar_product (const vector_t& b) const;
+    vector_t<TypeNum> cross_product (const vector_t<TypeNum>& b) const;
+    TypeNum scalar_product (const vector_t<TypeNum>& b) const;
     bool zero_vector () const;
 };
 
-inline vector_t vector_t::cross_product (const vector_t& b) const
+template <typename TypeNum>
+inline vector_t<TypeNum> vector_t<TypeNum>::cross_product (const vector_t<TypeNum>& b) const
 {
     return vector_t { cor_y * b.cor_z - cor_z * b.cor_y,
                       cor_z * b.cor_x - cor_x * b.cor_z,
-                      cor_x * b.cor_y - cor_y * b.cor_x};
+                      cor_x * b.cor_y - cor_y * b.cor_x };
 }
 
-inline double vector_t::scalar_product (const vector_t& b) const
+template <typename TypeNum>
+inline TypeNum vector_t<TypeNum>::scalar_product (const vector_t<TypeNum>& b) const
 {
     return cor_x * b.cor_x + cor_y * b.cor_y + cor_z * b.cor_z;
 }
 
-inline bool vector_t::operator==(const vector_t& p) const 
+template <typename TypeNum>
+inline bool vector_t<TypeNum>::operator==(const vector_t<TypeNum>& p) const 
 {
-    return (std::fabs (cor_x - p.cor_x) < EPSILON && 
-            std::fabs (cor_y - p.cor_y) < EPSILON &&
-            std::fabs (cor_z - p.cor_z) < EPSILON);
+    return (std::fabs (cor_x - p.cor_x) < EPSILON<TypeNum> && 
+            std::fabs (cor_y - p.cor_y) < EPSILON<TypeNum> &&
+            std::fabs (cor_z - p.cor_z) < EPSILON<TypeNum>);
 }
 
-inline bool vector_t::zero_vector () const 
+template <typename TypeNum>
+inline bool vector_t<TypeNum>::zero_vector () const 
 {
-    return ((std::fabs (cor_x) < EPSILON) &&
-            (std::fabs (cor_y) < EPSILON) && 
-            (std::fabs (cor_z) < EPSILON));
+    return ((std::fabs (cor_x) < EPSILON<TypeNum>) &&
+            (std::fabs (cor_y) < EPSILON<TypeNum>) && 
+            (std::fabs (cor_z) < EPSILON<TypeNum>));
 }
 
 // ----------------------------------------------------------------------------------
 
 // ------------------------------TRIANGLE_T------------------------------------------
 
+template <typename TypeNum>
 class triangle_t
 {
-    vector_t a_ {};
-    vector_t b_ {};
-    vector_t c_ {};
+    vector_t<TypeNum> a_ {};
+    vector_t<TypeNum> b_ {};
+    vector_t<TypeNum> c_ {};
 
-    vector_t N_; // the plane equation (N, X - a) = 0
+    vector_t<TypeNum> N_; // the plane equation (N, X - a) = 0
 
-    vector_t p_min_ {};
-    vector_t p_max_ {};
+    vector_t<TypeNum> p_min_ {};
+    vector_t<TypeNum> p_max_ {};
 
 public:
-    triangle_t () { };
-    triangle_t (const vector_t& a, const vector_t& b, const vector_t& c);
+    triangle_t () = default;
+    triangle_t (const vector_t<TypeNum>& a, const vector_t<TypeNum>& b, const vector_t<TypeNum>& c);
 
-    vector_t get_a () const { return a_; }
-    vector_t get_b () const { return b_; }
-    vector_t get_c () const { return c_; }
-    vector_t get_N () const { return N_; }
+    const vector_t<TypeNum>& get_a () const { return a_; }
+    const vector_t<TypeNum>& get_b () const { return b_; }
+    const vector_t<TypeNum>& get_c () const { return c_; }
+    const vector_t<TypeNum>& get_N () const { return N_; }
 
-    double distance_point_plane_tr (const vector_t& p) const;
-    bool point_lie_in_plane_tr (const vector_t& p) const;
+    TypeNum distance_point_plane_tr (const vector_t<TypeNum>& p) const;
+    bool point_lie_in_plane_tr (const vector_t<TypeNum>& p) const;
     bool degenerate_tr () const;
+    bool triangle_lie_in_space (const vector_t<TypeNum>& p1, const vector_t<TypeNum>& p2) const;
+
+    bool check_intersection_tr_tr (const triangle_t& other) const;
+    bool check_intersection_tr_point (const vector_t<TypeNum>& p) const;
+    bool check_intersection_tr_line (const vector_t<TypeNum>& p1, 
+                                     const vector_t<TypeNum>& p2) const;
+    static bool check_intersection_line_point (const vector_t<TypeNum>& line_p1, 
+                                               const vector_t<TypeNum>& line_p2, 
+                                               const vector_t<TypeNum>& p);
+    static bool check_intersection_point_point (const vector_t<TypeNum>& p1, 
+                                                const vector_t<TypeNum>& p2);
+    static bool check_intersection_line_line (const vector_t<TypeNum>& line1_p1, 
+                                              const vector_t<TypeNum>& line1_p2,
+                                              const vector_t<TypeNum>& line2_p1, 
+                                              const vector_t<TypeNum>& line2_p2);
+    
+private:
+    static std::pair<vector_t<TypeNum>, vector_t<TypeNum>> select_ends_segment (
+                                                              const vector_t<TypeNum>& p1, 
+                                                              const vector_t<TypeNum>& p2, 
+                                                              const vector_t<TypeNum>& p3);
+    std::pair<TypeNum, TypeNum> projection (char axis, const triangle_t& other) const;
+    bool check_different_degeneracies (const triangle_t& other) const;
     bool triangle_is_point () const { return ((a_ == b_) && (a_ == c_)); }
     bool triangle_is_line () const { return (degenerate_tr() && !triangle_is_point()); }
-    bool triangle_lie_in_space (const vector_t& p1, const vector_t& p2) const;
-
-    bool check_intersection (const triangle_t& other) const;
     bool check_same_sign_distance (const triangle_t& other) const;
-    bool check_intersection_tr_of_line (const triangle_t& other) const ;
-    std::pair<double, double> projection (char axis, const triangle_t& other) const;
-    bool check_triangle_point (const vector_t& p) const;
-    bool check_triangle_line (const vector_t& p1, const vector_t& p2) const;
-    static bool check_line_point (const vector_t& line_p1, const vector_t& line_p2, const vector_t& p);
-    static bool check_point_point (const vector_t& p1, const vector_t& p2);
-    static bool check_line_line (const vector_t& line1_p1, const vector_t& line1_p2,
-                      const vector_t& line2_p1, const vector_t& line2_p2);
-    bool check_different_degeneracies (const triangle_t& other) const;
-    static std::pair<vector_t, vector_t> select_ends_segment (const vector_t& p1, 
-                              const vector_t& p2, const vector_t& p3);
+    bool check_intersection_tr_of_line (const triangle_t& other) const;
 };
 
-inline bool triangle_t::degenerate_tr () const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::degenerate_tr () const
 {
-    return ((std::fabs(N_.cor_x) < EPSILON) &&
-            (std::fabs(N_.cor_y) < EPSILON) && 
-            (std::fabs(N_.cor_z) < EPSILON));
+    return ((std::fabs(N_.cor_x) < EPSILON<TypeNum>) &&
+            (std::fabs(N_.cor_y) < EPSILON<TypeNum>) && 
+            (std::fabs(N_.cor_z) < EPSILON<TypeNum>));
 }
 
-inline triangle_t::triangle_t (const vector_t& a, const vector_t& b, const vector_t& c) : 
-    a_(a), b_(b), c_(c), N_(vector_t ({ a, b }).cross_product ({ a, c }))
+template <typename TypeNum>
+inline triangle_t<TypeNum>::triangle_t (const vector_t<TypeNum>& a, 
+            const vector_t<TypeNum>& b, const vector_t<TypeNum>& c) : 
+    a_(a), b_(b), c_(c), N_(vector_t<TypeNum> ({ a, b }).cross_product ({ a, c }))
 {
     p_min_.cor_x = std::min(a_.cor_x, std::min (b_.cor_x, c_.cor_x));
     p_min_.cor_y = std::min(a_.cor_y, std::min (b_.cor_y, c_.cor_y));
@@ -123,29 +146,33 @@ inline triangle_t::triangle_t (const vector_t& a, const vector_t& b, const vecto
     p_max_.cor_z = std::max(a_.cor_z, std::max (b_.cor_z, c_.cor_z));
 }
 
-inline double triangle_t::distance_point_plane_tr (const vector_t& p) const
+template <typename TypeNum>
+inline TypeNum triangle_t<TypeNum>::distance_point_plane_tr (const vector_t<TypeNum>& p) const
 {
     vector_t vec { a_, p };
-    double res  = N_.scalar_product (vec);
-    double norm = std::sqrt (N_.scalar_product (N_));
+    TypeNum res  = N_.scalar_product (vec);
+    TypeNum norm = std::sqrt (N_.scalar_product (N_));
     return res / norm;
 }
 
-inline bool triangle_t::point_lie_in_plane_tr (const vector_t& p) const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::point_lie_in_plane_tr (const vector_t<TypeNum>& p) const
 {
-    return (std::fabs (distance_point_plane_tr (p)) < EPSILON);
+    return (std::fabs (distance_point_plane_tr (p)) < EPSILON<TypeNum>);
 }
 
-inline bool triangle_t::triangle_lie_in_space(const vector_t& p1, const vector_t& p2) const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::triangle_lie_in_space(const vector_t<TypeNum>& p1, 
+                                                       const vector_t<TypeNum>& p2) const
 {
-    double cube_min_x = std::min(p1.cor_x, p2.cor_x);
-    double cube_max_x = std::max(p1.cor_x, p2.cor_x);
+    TypeNum cube_min_x = std::min(p1.cor_x, p2.cor_x);
+    TypeNum cube_max_x = std::max(p1.cor_x, p2.cor_x);
 
-    double cube_min_y = std::min(p1.cor_y, p2.cor_y);
-    double cube_max_y = std::max(p1.cor_y, p2.cor_y);
+    TypeNum cube_min_y = std::min(p1.cor_y, p2.cor_y);
+    TypeNum cube_max_y = std::max(p1.cor_y, p2.cor_y);
 
-    double cube_min_z = std::min(p1.cor_z, p2.cor_z);
-    double cube_max_z = std::max(p1.cor_z, p2.cor_z);
+    TypeNum cube_min_z = std::min(p1.cor_z, p2.cor_z);
+    TypeNum cube_max_z = std::max(p1.cor_z, p2.cor_z);
 
     bool overlap_x = !(p_max_.cor_x < cube_min_x || p_min_.cor_x > cube_max_x);
     bool overlap_y = !(p_max_.cor_y < cube_min_y || p_min_.cor_y > cube_max_y);
@@ -154,7 +181,8 @@ inline bool triangle_t::triangle_lie_in_space(const vector_t& p1, const vector_t
     return overlap_x && overlap_y && overlap_z;
 }
 
-inline bool triangle_t::check_intersection (const triangle_t& other) const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_intersection_tr_tr (const triangle_t& other) const
 {
     if (other.check_same_sign_distance (*this) || 
         check_same_sign_distance (other))
@@ -170,98 +198,106 @@ inline bool triangle_t::check_intersection (const triangle_t& other) const
     // the same kind of degeneracy
     if (triangle_is_line () && other.triangle_is_line ())
     {
-        std::pair<vector_t, vector_t> pair1 = select_ends_segment (a_, b_, c_);
-        std::pair<vector_t, vector_t> pair2 = select_ends_segment (
+        std::pair<vector_t<TypeNum>, vector_t<TypeNum>> pair1 = select_ends_segment (a_, b_, c_);
+        std::pair<vector_t<TypeNum>, vector_t<TypeNum>> pair2 = select_ends_segment (
                                         other.get_a (), other.get_b (), other.get_c ());
-        return check_line_line (pair1.first, pair1.second, pair2.first, pair2.second);
+        return check_intersection_line_line (pair1.first, pair1.second, pair2.first, pair2.second);
     }
 
     if (triangle_is_point () && other.triangle_is_point ())
-        return check_point_point (a_, other.get_a ());
+        return check_intersection_point_point (a_, other.get_a ());
 
     // different kinds of degeneracy
     return (check_different_degeneracies (other) || 
             other.check_different_degeneracies (*this));
 }
 
-inline bool triangle_t::check_different_degeneracies (const triangle_t& other) const 
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_different_degeneracies (const triangle_t& other) const 
 {
     if (triangle_is_line () && other.triangle_is_point ())
     {
-        std::pair<vector_t, vector_t> pair = select_ends_segment (a_, b_, c_);
-        return check_line_point (pair.first, pair.second, other.get_a ());
+        std::pair<vector_t<TypeNum>, vector_t<TypeNum>> pair = select_ends_segment (a_, b_, c_);
+        return check_intersection_line_point (pair.first, pair.second, other.get_a ());
     }
 
     if (!degenerate_tr () && other.triangle_is_line ())
     {
-        std::pair<vector_t, vector_t> pair = select_ends_segment (
+        std::pair<vector_t<TypeNum>, vector_t<TypeNum>> pair = select_ends_segment (
                                         other.get_a (), other.get_b (), other.get_c ());
-        return check_triangle_line (pair.first, pair.second);
+        return check_intersection_tr_line (pair.first, pair.second);
     }
 
     if (!degenerate_tr () && other.triangle_is_point ())
     {
-        return check_triangle_point (other.get_a ());
+        return check_intersection_tr_point (other.get_a ());
     }
 
     return false;
 }
 
-inline std::pair<vector_t, vector_t> triangle_t::select_ends_segment (const vector_t& p1, 
-                              const vector_t& p2, const vector_t& p3)
+template <typename TypeNum>
+inline std::pair<vector_t<TypeNum>, vector_t<TypeNum>> triangle_t<TypeNum>::select_ends_segment (
+             const vector_t<TypeNum>& p1, const vector_t<TypeNum>& p2, const vector_t<TypeNum>& p3)
 {
     // c_ lies between a_ & b_
-    if (check_line_point (p1, p2, p3)) 
+    if (check_intersection_line_point (p1, p2, p3)) 
         return {p1, p2};
 
     // b_ lies between a_ & c_
-    else if (check_line_point (p1, p3, p2))
+    else if (check_intersection_line_point (p1, p3, p2))
         return {p1, p3};
 
     // a_ lies between b_ & c_
     return {p2, p3};
 };
 
-inline bool triangle_t::check_triangle_point (const vector_t& p) const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_intersection_tr_point (const vector_t<TypeNum>& p) const
 {
     // guaranteed that point already lies in plane of triangle
-    double res_1 = (vector_t{a_, b_}.cross_product(
+    TypeNum res_1 = (vector_t{a_, b_}.cross_product(
                     vector_t{a_, p})).scalar_product(N_); 
 
-    double res_2 = (vector_t{b_, c_}.cross_product(
+    TypeNum res_2 = (vector_t{b_, c_}.cross_product(
                     vector_t{b_, p})).scalar_product(N_); 
     
-    double res_3 = (vector_t{c_, a_}.cross_product(
+    TypeNum res_3 = (vector_t{c_, a_}.cross_product(
                     vector_t{c_, p})).scalar_product(N_); 
 
-    return ((res_1 >= -EPSILON && res_2 >= -EPSILON && res_3 >= -EPSILON) || 
-            (res_1 <= EPSILON && res_2 <= EPSILON && res_3 <= EPSILON));
+    return ((res_1 >= -EPSILON<TypeNum> && res_2 >= -EPSILON<TypeNum> && res_3 >= -EPSILON<TypeNum>) || 
+            (res_1 <= EPSILON<TypeNum> && res_2 <= EPSILON<TypeNum> && res_3 <= EPSILON<TypeNum>));
 }
 
-inline bool triangle_t::check_triangle_line (const vector_t& p1, const vector_t& p2) const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_intersection_tr_line (const vector_t<TypeNum>& p1, 
+                                                             const vector_t<TypeNum>& p2) const
 {
     // guaranteed that line intersects plane of triangle (or lies)
 
     // lies
     if (N_.scalar_product(vector_t{p1, p2}) == 0)
     {
-         return (check_line_line (p1, p2, a_, b_) ||
-                 check_line_line (p1, p2, b_, c_) ||
-                 check_line_line (p1, p2, c_, a_) ||
-                 check_triangle_point (p1) || check_triangle_point (p2));
+         return (check_intersection_line_line (p1, p2, a_, b_) ||
+                 check_intersection_line_line (p1, p2, b_, c_) ||
+                 check_intersection_line_line (p1, p2, c_, a_) ||
+                 check_intersection_tr_point (p1) || check_intersection_tr_point (p2));
     }
     
     // intersects
-    double t = - N_.scalar_product(vector_t{a_, p1}) /
+    TypeNum t = - N_.scalar_product(vector_t{a_, p1}) /
                  N_.scalar_product(vector_t{p1, p2});
 
     vector_t p = p1 + ((p2 - p1) * t);
 
-    return check_triangle_point (p);
+    return check_intersection_tr_point (p);
 }
 
-inline bool triangle_t::check_line_line (const vector_t& line1_p1, const vector_t& line1_p2,
-                      const vector_t& line2_p1, const vector_t& line2_p2)
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_intersection_line_line (const vector_t<TypeNum>& line1_p1, 
+                                                               const vector_t<TypeNum>& line1_p2, 
+                                                               const vector_t<TypeNum>& line2_p1, 
+                                                               const vector_t<TypeNum>& line2_p2)
 {
     vector_t u{ line1_p1, line1_p2 }; // guiding vector line 1
     vector_t v{ line2_p1, line2_p2 }; // guiding vector line 2
@@ -270,32 +306,34 @@ inline bool triangle_t::check_line_line (const vector_t& line1_p1, const vector_
     // parallel lines
     if ((u.cross_product(v)).zero_vector()) 
     {
-        return (check_line_point(line1_p1, line1_p2, line2_p1) || 
-                check_line_point(line1_p1, line1_p2, line2_p2) ||
-                check_line_point(line2_p1, line2_p2, line1_p1) || 
-                check_line_point(line2_p1, line2_p2, line1_p2));
+        return (check_intersection_line_point(line1_p1, line1_p2, line2_p1) || 
+                check_intersection_line_point(line1_p1, line1_p2, line2_p2) ||
+                check_intersection_line_point(line2_p1, line2_p2, line1_p1) || 
+                check_intersection_line_point(line2_p1, line2_p2, line1_p2));
     }
 
-    double u_u = u.scalar_product(u);
-    double u_v = u.scalar_product(v);
-    double v_v = v.scalar_product(v);
-    double u_w = u.scalar_product(w);
-    double v_w = v.scalar_product(w);
+    TypeNum u_u = u.scalar_product(u);
+    TypeNum u_v = u.scalar_product(v);
+    TypeNum v_v = v.scalar_product(v);
+    TypeNum u_w = u.scalar_product(w);
+    TypeNum v_w = v.scalar_product(w);
 
-    double denominator = u_u * v_v - u_v * u_v;
-    double parameter_1 = (v_v * u_w - u_v * v_w) / denominator;
-    double parameter_2 = (u_v * u_w - u_u * v_w) / denominator;
+    TypeNum denominator = u_u * v_v - u_v * u_v;
+    TypeNum parameter_1 = (v_v * u_w - u_v * v_w) / denominator;
+    TypeNum parameter_2 = (u_v * u_w - u_u * v_w) / denominator;
   
     vector_t line1_parameter1 = line1_p1 + (line1_p2 - line1_p1) * parameter_1;
     vector_t line2_parameter2 = line2_p1 + (line2_p2 - line2_p1) * parameter_2;
 
 
     return ((vector_t{line1_parameter1, line2_parameter2}.zero_vector()) &&
-            (parameter_1 >= -EPSILON) && (parameter_1 <= 1 + EPSILON)    &&
-            (parameter_2 >= -EPSILON) && (parameter_2 <= 1 + EPSILON));
+            (parameter_1 >= -EPSILON<TypeNum>) && (parameter_1 <= 1 + EPSILON<TypeNum>)    &&
+            (parameter_2 >= -EPSILON<TypeNum>) && (parameter_2 <= 1 + EPSILON<TypeNum>));
 }
 
-inline bool triangle_t::check_line_point (const vector_t& line_p1, const vector_t& line_p2, const vector_t& p)
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_intersection_line_point (const vector_t<TypeNum>& line_p1, 
+                                    const vector_t<TypeNum>& line_p2, const vector_t<TypeNum>& p)
 {
     vector_t vec1{ line_p1, line_p2 };
     vector_t vec2{ line_p1, p };
@@ -305,36 +343,40 @@ inline bool triangle_t::check_line_point (const vector_t& line_p1, const vector_
         return false;
     }
 
-    return ((std::fmin (line_p1.cor_x, line_p2.cor_x) - EPSILON <= p.cor_x) &&
-            (std::fmax (line_p1.cor_x, line_p2.cor_x) + EPSILON >= p.cor_x) &&
+    return ((std::fmin (line_p1.cor_x, line_p2.cor_x) - EPSILON<TypeNum> <= p.cor_x) &&
+            (std::fmax (line_p1.cor_x, line_p2.cor_x) + EPSILON<TypeNum> >= p.cor_x) &&
 
-            (std::fmin (line_p1.cor_y, line_p2.cor_y) - EPSILON <= p.cor_y) &&
-            (std::fmax (line_p1.cor_y, line_p2.cor_y) + EPSILON >= p.cor_y) &&
+            (std::fmin (line_p1.cor_y, line_p2.cor_y) - EPSILON<TypeNum> <= p.cor_y) &&
+            (std::fmax (line_p1.cor_y, line_p2.cor_y) + EPSILON<TypeNum> >= p.cor_y) &&
 
-            (std::fmin (line_p1.cor_z, line_p2.cor_z) - EPSILON <= p.cor_z) &&
-            (std::fmax (line_p1.cor_z, line_p2.cor_z) + EPSILON >= p.cor_z));
+            (std::fmin (line_p1.cor_z, line_p2.cor_z) - EPSILON<TypeNum> <= p.cor_z) &&
+            (std::fmax (line_p1.cor_z, line_p2.cor_z) + EPSILON<TypeNum> >= p.cor_z));
 }
 
-inline bool triangle_t::check_point_point (const vector_t& p1, const vector_t& p2)
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_intersection_point_point (const vector_t<TypeNum>& p1, 
+                                                                 const vector_t<TypeNum>& p2)
 {
     return (p1 == p2);
 }
 
-inline bool triangle_t::check_same_sign_distance (const triangle_t& other) const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_same_sign_distance (const triangle_t& other) const
 {
     if (other.degenerate_tr())
     {
         return false;
     }
-    double distance_1 = other.distance_point_plane_tr (a_);
-    double distance_2 = other.distance_point_plane_tr (b_);
-    double distance_3 = other.distance_point_plane_tr (c_);
+    TypeNum distance_1 = other.distance_point_plane_tr (a_);
+    TypeNum distance_2 = other.distance_point_plane_tr (b_);
+    TypeNum distance_3 = other.distance_point_plane_tr (c_);
 
-    return ((distance_1 > EPSILON && distance_2 > EPSILON && distance_3 > EPSILON) || 
-            (distance_1 < -EPSILON && distance_2 < -EPSILON && distance_3 < -EPSILON));
+    return ((distance_1 > EPSILON<TypeNum> && distance_2 > EPSILON<TypeNum> && distance_3 > EPSILON<TypeNum>) || 
+            (distance_1 < -EPSILON<TypeNum> && distance_2 < -EPSILON<TypeNum> && distance_3 < -EPSILON<TypeNum>));
 }
 
-inline bool triangle_t::check_intersection_tr_of_line (const triangle_t& other) const
+template <typename TypeNum>
+inline bool triangle_t<TypeNum>::check_intersection_tr_of_line (const triangle_t& other) const
 {
     // D = direction of the common line
     vector_t D = N_.cross_product (other.get_N ());
@@ -342,39 +384,40 @@ inline bool triangle_t::check_intersection_tr_of_line (const triangle_t& other) 
     // triangles lie in same plane
     if (D.zero_vector ())
     {
-        return (check_triangle_line (other.get_a (), other.get_b ()) ||
-                check_triangle_line (other.get_a (), other.get_c ()) ||
-                check_triangle_line (other.get_c (), other.get_b ()) ||
+        return (check_intersection_tr_line (other.get_a (), other.get_b ()) ||
+                check_intersection_tr_line (other.get_a (), other.get_c ()) ||
+                check_intersection_tr_line (other.get_c (), other.get_b ()) ||
 
-                other.check_triangle_line (a_, b_) ||
-                other.check_triangle_line (a_, c_) ||
-                other.check_triangle_line (c_, b_));
+                other.check_intersection_tr_line (a_, b_) ||
+                other.check_intersection_tr_line (a_, c_) ||
+                other.check_intersection_tr_line (c_, b_));
     }
 
-    double D_x = std::fabs (D.cor_x);
-    double D_y = std::fabs (D.cor_y);
-    double D_z = std::fabs (D.cor_z);
+    TypeNum D_x = std::fabs (D.cor_x);
+    TypeNum D_y = std::fabs (D.cor_y);
+    TypeNum D_z = std::fabs (D.cor_z);
 
     char axis = 'z';
 
-    if ((D_y - D_x) < EPSILON && (D_z - D_x) < EPSILON)
+    if ((D_y - D_x) < EPSILON<TypeNum> && (D_z - D_x) < EPSILON<TypeNum>)
         axis = 'x';
-    else if ((D_x - D_y) < EPSILON && (D_z - D_y) < EPSILON)
+    else if ((D_x - D_y) < EPSILON<TypeNum> && (D_z - D_y) < EPSILON<TypeNum>)
         axis = 'y';
 
-    std::pair<double, double> pair_1 = projection (axis, other);
-    double t1 = pair_1.first;
-    double t2 = pair_1.second;
+    std::pair<TypeNum, TypeNum> pair_1 = projection (axis, other);
+    TypeNum t1 = pair_1.first;
+    TypeNum t2 = pair_1.second;
 
-    std::pair<double, double> pair_2 = other.projection (axis, *this);
-    double t3 = pair_2.first;
-    double t4 = pair_2.second;
+    std::pair<TypeNum, TypeNum> pair_2 = other.projection (axis, *this);
+    TypeNum t3 = pair_2.first;
+    TypeNum t4 = pair_2.second;
 
     return ((std::min (t1, t2) <= std::max (t3, t4)) && 
             (std::min (t3, t4) <= std::max (t1, t2)));
 }
 
-inline std::pair<double, double> triangle_t::projection (char axis, const triangle_t& other) const
+template <typename TypeNum>
+inline std::pair<TypeNum, TypeNum> triangle_t<TypeNum>::projection (char axis, const triangle_t& other) const
 {
     // point_1 and point_2 lie on the same side of tr_2 and that point_mid lies on
     // the other side
@@ -383,9 +426,9 @@ inline std::pair<double, double> triangle_t::projection (char axis, const triang
     vector_t point_2   = c_;
 
     // choose which axis to project on
-    double project_point_1   = point_1.cor_z;
-    double project_point_mid = point_mid.cor_z;
-    double project_point_2   = point_2.cor_z;
+    TypeNum project_point_1   = point_1.cor_z;
+    TypeNum project_point_mid = point_mid.cor_z;
+    TypeNum project_point_2   = point_2.cor_z;
 
     if (axis == 'x')
     {
@@ -442,11 +485,11 @@ inline std::pair<double, double> triangle_t::projection (char axis, const triang
     }
 
     // counting projections on the selected axis
-    double t1 = project_point_1 + 
+    TypeNum t1 = project_point_1 + 
                 (project_point_mid - project_point_1) * (other.distance_point_plane_tr (point_1) / 
                 (other.distance_point_plane_tr (point_1) - other.distance_point_plane_tr (point_mid)));
 
-    double t2 = project_point_2 + 
+    TypeNum t2 = project_point_2 + 
                 (project_point_mid - project_point_2) * (other.distance_point_plane_tr (point_2) / 
                 (other.distance_point_plane_tr (point_2) - other.distance_point_plane_tr (point_mid)));
 
@@ -457,9 +500,8 @@ inline std::pair<double, double> triangle_t::projection (char axis, const triang
 
 // ------------------------------OTHER_FUNC------------------------------------------
 
-std::istream& operator>> (std::istream& in, vector_t& p);
-
-std::istream& operator>> (std::istream& in, vector_t& p)
+template <typename TypeNum>
+inline static std::istream& operator>> (std::istream& in, vector_t<TypeNum>& p)
 {
     in >> p.cor_x >> p.cor_y >> p.cor_z;
     return in;
