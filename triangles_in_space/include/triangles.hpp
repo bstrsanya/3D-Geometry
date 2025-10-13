@@ -5,10 +5,12 @@
 #include <iostream>
 #include <utility>
 
+// ------------------------------VECTOR_T--------------------------------------------
+
+namespace ClassVector {
+
 template <typename TypeNum>
 const TypeNum EPSILON = 1e-7;
-
-// ------------------------------VECTOR_T--------------------------------------------
 
 template <typename TypeNum>
 class vector_t
@@ -66,10 +68,15 @@ inline bool vector_t<TypeNum>::zero_vector () const
             (std::fabs (cor_y) < EPSILON<TypeNum>) && 
             (std::fabs (cor_z) < EPSILON<TypeNum>));
 }
+} // ClassVector
 
 // ----------------------------------------------------------------------------------
 
 // ------------------------------TRIANGLE_T------------------------------------------
+
+namespace ClassTriangle {
+
+using namespace ClassVector;
 
 template <typename TypeNum>
 class triangle_t
@@ -82,6 +89,13 @@ class triangle_t
 
     vector_t<TypeNum> p_min_ {};
     vector_t<TypeNum> p_max_ {};
+
+    enum axis_t
+    {
+        X_axis,
+        Y_axis,
+        Z_axis
+    };
 
 public:
     triangle_t () = default;
@@ -116,7 +130,7 @@ private:
                                                               const vector_t<TypeNum>& p1, 
                                                               const vector_t<TypeNum>& p2, 
                                                               const vector_t<TypeNum>& p3);
-    std::pair<TypeNum, TypeNum> projection (char axis, const triangle_t& other) const;
+    std::pair<TypeNum, TypeNum> projection (axis_t axis, const triangle_t& other) const;
     bool check_different_degeneracies (const triangle_t& other) const;
     bool triangle_is_point () const { return ((a_ == b_) && (a_ == c_)); }
     bool triangle_is_line () const { return (degenerate_tr() && !triangle_is_point()); }
@@ -397,12 +411,12 @@ inline bool triangle_t<TypeNum>::check_intersection_tr_of_line (const triangle_t
     TypeNum D_y = std::fabs (D.cor_y);
     TypeNum D_z = std::fabs (D.cor_z);
 
-    char axis = 'z';
+    axis_t axis = Z_axis;
 
     if ((D_y - D_x) < EPSILON<TypeNum> && (D_z - D_x) < EPSILON<TypeNum>)
-        axis = 'x';
+        axis = X_axis;
     else if ((D_x - D_y) < EPSILON<TypeNum> && (D_z - D_y) < EPSILON<TypeNum>)
-        axis = 'y';
+        axis = Y_axis;
 
     std::pair<TypeNum, TypeNum> pair_1 = projection (axis, other);
     TypeNum t1 = pair_1.first;
@@ -417,7 +431,7 @@ inline bool triangle_t<TypeNum>::check_intersection_tr_of_line (const triangle_t
 }
 
 template <typename TypeNum>
-inline std::pair<TypeNum, TypeNum> triangle_t<TypeNum>::projection (char axis, const triangle_t& other) const
+inline std::pair<TypeNum, TypeNum> triangle_t<TypeNum>::projection (axis_t axis, const triangle_t& other) const
 {
     // point_1 and point_2 lie on the same side of tr_2 and that point_mid lies on
     // the other side
@@ -430,13 +444,13 @@ inline std::pair<TypeNum, TypeNum> triangle_t<TypeNum>::projection (char axis, c
     TypeNum project_point_mid = point_mid.cor_z;
     TypeNum project_point_2   = point_2.cor_z;
 
-    if (axis == 'x')
+    if (axis == X_axis)
     {
         project_point_1   = point_1.cor_x;
         project_point_mid = point_mid.cor_x;
         project_point_2   = point_2.cor_x;
     }
-    else if (axis == 'y')
+    else if (axis == Y_axis)
     {
         project_point_1   = point_1.cor_y;
         project_point_mid = point_mid.cor_y;
@@ -495,16 +509,23 @@ inline std::pair<TypeNum, TypeNum> triangle_t<TypeNum>::projection (char axis, c
 
     return { t1, t2 };
 }
+} // ClassTriangle
 
 // ----------------------------------------------------------------------------------
 
 // ------------------------------OTHER_FUNC------------------------------------------
 
 template <typename TypeNum>
-inline static std::istream& operator>> (std::istream& in, vector_t<TypeNum>& p)
+inline static std::istream& operator>> (std::istream& in, ClassVector::vector_t<TypeNum>& p)
 {
     in >> p.cor_x >> p.cor_y >> p.cor_z;
     return in;
+}
+
+inline static void give_error_input_data ()
+{
+    std::cerr << "Invalid input" << std::endl;
+    std::exit(EXIT_FAILURE);
 }
 
 // ----------------------------------------------------------------------------------

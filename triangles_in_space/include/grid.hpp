@@ -1,5 +1,5 @@
-#ifndef OCTREE_HPP
-#define OCTREE_HPP
+#ifndef ADAPTIVE_GRID_HPP
+#define ADAPTIVE_GRID_HPP
 
 #include <set>
 #include <vector>
@@ -8,19 +8,20 @@
 
 #include "triangles.hpp"
 
-namespace constants {
-    const std::size_t OPTIMAL_NUM_TR_IN_SPACE = 15;
-    const std::size_t MAX_VALUE_DEEP_RECURSION = 6;
-    const std::size_t OCTREE_CHILD_COUNT = 8;
-}
+// --------------------------------GRID_T--------------------------------------------
+namespace ClassAdaptiveGrid {
 
-// ------------------------------OCTREE_T--------------------------------------------
+using namespace ClassTriangle;
 
 template <typename TypeNum>
 class adaptive_grid_t
 {
 private:
-    std::vector<triangle_t<TypeNum>>&& array_triangle_;
+    static const std::size_t OPTIMAL_NUM_TR_IN_SPACE = 15;
+    static const std::size_t MAX_VALUE_DEEP_RECURSION = 6;
+    static const std::size_t OCTREE_CHILD_COUNT = 8;
+
+    std::vector<triangle_t<TypeNum>> array_triangle_;
     std::vector<std::vector<std::size_t>> array_leaf_tree_ {};
     std::set<std::size_t> num_tr_intersection_ {};   
 
@@ -107,8 +108,8 @@ inline void adaptive_grid_t<TypeNum>::recursive_construction_grid (const vector_
     depth_recursion++;
     
     // recursion exit conditions
-    if (num_triangles.size () <= constants::OPTIMAL_NUM_TR_IN_SPACE || 
-               depth_recursion > constants::MAX_VALUE_DEEP_RECURSION)
+    if (num_triangles.size () <= OPTIMAL_NUM_TR_IN_SPACE || 
+               depth_recursion > MAX_VALUE_DEEP_RECURSION)
     {
         array_leaf_tree_.push_back (num_triangles);
         return;
@@ -118,8 +119,8 @@ inline void adaptive_grid_t<TypeNum>::recursive_construction_grid (const vector_
     vector_t central_point = (p_min + p_max) / 2;
 
     // dividing space into 8 equal parts that have a common point
-    std::array<std::vector<std::size_t>, constants::OCTREE_CHILD_COUNT> array_space{};
-    std::array<vector_t<TypeNum>, constants::OCTREE_CHILD_COUNT> array_point = {
+    std::array<std::vector<std::size_t>, OCTREE_CHILD_COUNT> array_space{};
+    std::array<vector_t<TypeNum>, OCTREE_CHILD_COUNT> array_point = {
                                           vector_t {p_max.cor_x, p_max.cor_y, p_max.cor_z},
                                           vector_t {p_min.cor_x, p_max.cor_y, p_max.cor_z},
                                           vector_t {p_min.cor_x, p_min.cor_y, p_max.cor_z},
@@ -131,20 +132,20 @@ inline void adaptive_grid_t<TypeNum>::recursive_construction_grid (const vector_
 
 
     // distribution of triangles into new subspaces
-    for (auto n_tr = num_triangles.begin(); n_tr != num_triangles.end(); n_tr++)
+    for (const auto& n_tr : num_triangles)
     {
-        triangle_t<TypeNum>& tr = array_triangle_[*n_tr];
-        for (std::size_t i = 0; i < constants::OCTREE_CHILD_COUNT; i++)
+        triangle_t<TypeNum>& tr = array_triangle_[n_tr];
+        for (std::size_t i = 0; i < OCTREE_CHILD_COUNT; i++)
         {
             if (tr.triangle_lie_in_space (central_point, array_point[i]))
             {
-                array_space[i].push_back (*n_tr);
+                array_space[i].push_back (n_tr);
             }
         }
     }
 
     // for non-empty subspaces we call a recursive partition
-    for (std::size_t i = 0; i < constants::OCTREE_CHILD_COUNT; i++)
+    for (std::size_t i = 0; i < OCTREE_CHILD_COUNT; i++)
     {
         if (!array_space[i].empty())
         {
@@ -183,7 +184,8 @@ inline void adaptive_grid_t<TypeNum>::naive_verification (std::vector<std::size_
         }
     }
 }
+} // ClassAdaptiveGrid
 
 // ----------------------------------------------------------------------------------
 
-#endif // OCTREE_HPP
+#endif // ADAPTIVE_GRID_HPP

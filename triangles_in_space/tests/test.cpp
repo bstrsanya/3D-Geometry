@@ -4,6 +4,8 @@
 
 // ------------------------------TESTING_SCALAR_PRODUCT------------------------------
 
+using namespace ClassTriangle;
+
 TEST (test_vector, scalar_product_easy)
 {
     vector_t<double> vec_1 { 1.0, 1.5, 2.0 };
