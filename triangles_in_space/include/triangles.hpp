@@ -7,7 +7,7 @@
 
 // ------------------------------VECTOR_T--------------------------------------------
 
-namespace ClassVector {
+namespace Triangle {
 
 template <typename TypeNum>
 const TypeNum EPSILON = 1e-7;
@@ -74,9 +74,7 @@ inline bool vector_t<TypeNum>::zero_vector () const
 
 // ------------------------------TRIANGLE_T------------------------------------------
 
-namespace ClassTriangle {
-
-using namespace ClassVector;
+namespace Triangle {
 
 template <typename TypeNum>
 class triangle_t
@@ -90,7 +88,7 @@ class triangle_t
     vector_t<TypeNum> p_min_ {};
     vector_t<TypeNum> p_max_ {};
 
-    enum axis_t
+    enum class axis_t
     {
         X_axis,
         Y_axis,
@@ -411,12 +409,12 @@ inline bool triangle_t<TypeNum>::check_intersection_tr_of_line (const triangle_t
     TypeNum D_y = std::fabs (D.cor_y);
     TypeNum D_z = std::fabs (D.cor_z);
 
-    axis_t axis = Z_axis;
+    axis_t axis = axis_t::Z_axis;
 
     if ((D_y - D_x) < EPSILON<TypeNum> && (D_z - D_x) < EPSILON<TypeNum>)
-        axis = X_axis;
+        axis = axis_t::X_axis;
     else if ((D_x - D_y) < EPSILON<TypeNum> && (D_z - D_y) < EPSILON<TypeNum>)
-        axis = Y_axis;
+        axis = axis_t::Y_axis;
 
     std::pair<TypeNum, TypeNum> pair_1 = projection (axis, other);
     TypeNum t1 = pair_1.first;
@@ -444,13 +442,13 @@ inline std::pair<TypeNum, TypeNum> triangle_t<TypeNum>::projection (axis_t axis,
     TypeNum project_point_mid = point_mid.cor_z;
     TypeNum project_point_2   = point_2.cor_z;
 
-    if (axis == X_axis)
+    if (axis == axis_t::X_axis)
     {
         project_point_1   = point_1.cor_x;
         project_point_mid = point_mid.cor_x;
         project_point_2   = point_2.cor_x;
     }
-    else if (axis == Y_axis)
+    else if (axis == axis_t::Y_axis)
     {
         project_point_1   = point_1.cor_y;
         project_point_mid = point_mid.cor_y;
@@ -515,18 +513,22 @@ inline std::pair<TypeNum, TypeNum> triangle_t<TypeNum>::projection (axis_t axis,
 
 // ------------------------------OTHER_FUNC------------------------------------------
 
+namespace Triangle {
+
 template <typename TypeNum>
-inline static std::istream& operator>> (std::istream& in, ClassVector::vector_t<TypeNum>& p)
+std::istream& operator>> (std::istream& in, vector_t<TypeNum>& p)
 {
     in >> p.cor_x >> p.cor_y >> p.cor_z;
     return in;
 }
 
-inline static void give_error_input_data ()
+inline void give_error_input_data ()
 {
     std::cerr << "Invalid input" << std::endl;
     std::exit(EXIT_FAILURE);
 }
+
+} // Triangle
 
 // ----------------------------------------------------------------------------------
 

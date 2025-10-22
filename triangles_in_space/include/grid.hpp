@@ -9,9 +9,7 @@
 #include "triangles.hpp"
 
 // --------------------------------GRID_T--------------------------------------------
-namespace ClassAdaptiveGrid {
-
-using namespace ClassTriangle;
+namespace Triangle {
 
 template <typename TypeNum>
 class adaptive_grid_t
