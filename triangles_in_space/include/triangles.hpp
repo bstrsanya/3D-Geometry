@@ -522,12 +522,6 @@ std::istream& operator>> (std::istream& in, vector_t<TypeNum>& p)
     return in;
 }
 
-inline void give_error_input_data ()
-{
-    std::cerr << "Invalid input" << std::endl;
-    std::exit(EXIT_FAILURE);
-}
-
 } // Triangle
 
 // ----------------------------------------------------------------------------------

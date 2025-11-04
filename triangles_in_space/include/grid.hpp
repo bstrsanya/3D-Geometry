@@ -32,7 +32,7 @@ private:
 
 public:
     adaptive_grid_t (std::vector<triangle_t<TypeNum>>&& array_triangle);
-    std::set<std::size_t>& get_num_tr_intersection ();
+    const std::set<std::size_t>& get_num_tr_intersection ();
 };
 
 template <typename TypeNum>
@@ -154,7 +154,7 @@ inline void adaptive_grid_t<TypeNum>::recursive_construction_grid (const vector_
 }
 
 template <typename TypeNum>
-inline std::set<std::size_t>& adaptive_grid_t<TypeNum>::get_num_tr_intersection ()
+inline const std::set<std::size_t>& adaptive_grid_t<TypeNum>::get_num_tr_intersection ()
 {
     // naive intersection count for each part of the partition
     for (auto& leaf : array_leaf_tree_)
