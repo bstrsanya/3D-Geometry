@@ -100,9 +100,9 @@ inline TypeNum adaptive_grid_t<TypeNum>::nearest_power_of_two (TypeNum num)
 }
 
 template <typename TypeNum>
-void adaptive_grid_t<TypeNum>::iterative_construction_grid(const vector_t<TypeNum>& p_min, 
-                                                           const vector_t<TypeNum>& p_max,
-                                                           std::vector<std::size_t>& num_triangles)
+inline void adaptive_grid_t<TypeNum>::iterative_construction_grid(const vector_t<TypeNum>& p_min, 
+                                                                  const vector_t<TypeNum>& p_max,
+                                                         std::vector<std::size_t>& num_triangles)
 {
     struct StackFrame
     {
