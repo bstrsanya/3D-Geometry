@@ -5,6 +5,7 @@
 #include <vector>
 #include <array>
 #include <limits>
+#include <stack>
 
 #include "triangles.hpp"
 
@@ -25,9 +26,9 @@ private:
 
     TypeNum count_bounding_cube ();
     TypeNum nearest_power_of_two (TypeNum num);
-    void recursive_construction_grid (const vector_t<TypeNum>& p_min, 
+    void iterative_construction_grid (const vector_t<TypeNum>& p_min, 
                                       const vector_t<TypeNum>& p_max,
-                                      std::vector<std::size_t>& num_triangles, int dep);
+                                      std::vector<std::size_t>& num_triangles);
     void naive_verification (std::vector<std::size_t>& num1);  
 
 public:
@@ -50,7 +51,7 @@ inline adaptive_grid_t<TypeNum>::adaptive_grid_t (std::vector<triangle_t<TypeNum
         num_triangles.push_back (i);
     }
 
-    recursive_construction_grid (p_min, p_max, num_triangles, 0);
+    iterative_construction_grid (p_min, p_max, num_triangles);
 }
 
 template <typename TypeNum>
@@ -99,56 +100,67 @@ inline TypeNum adaptive_grid_t<TypeNum>::nearest_power_of_two (TypeNum num)
 }
 
 template <typename TypeNum>
-inline void adaptive_grid_t<TypeNum>::recursive_construction_grid (const vector_t<TypeNum>& p_min, 
-                                                                   const vector_t<TypeNum>& p_max,
-                                     std::vector<std::size_t>& num_triangles, int depth_recursion)
+void adaptive_grid_t<TypeNum>::iterative_construction_grid(const vector_t<TypeNum>& p_min, 
+                                                           const vector_t<TypeNum>& p_max,
+                                                           std::vector<std::size_t>& num_triangles)
 {
-    depth_recursion++;
-    
-    // recursion exit conditions
-    if (num_triangles.size () <= OPTIMAL_NUM_TR_IN_SPACE || 
-               depth_recursion > MAX_VALUE_DEEP_RECURSION)
+    struct StackFrame
     {
-        array_leaf_tree_.push_back (num_triangles);
-        return;
-    }
+        vector_t<TypeNum> p_min;
+        vector_t<TypeNum> p_max;
+        std::vector<std::size_t> num_triangles;
+        int depth_recursion;
+    };
 
-    // common point
-    vector_t central_point = (p_min + p_max) / 2;
+    std::stack<StackFrame> stack;
+    stack.push({p_min, p_max, num_triangles, 0});
 
-    // dividing space into 8 equal parts that have a common point
-    std::array<std::vector<std::size_t>, OCTREE_CHILD_COUNT> array_space{};
-    std::array<vector_t<TypeNum>, OCTREE_CHILD_COUNT> array_point = {
-                                          vector_t {p_max.cor_x, p_max.cor_y, p_max.cor_z},
-                                          vector_t {p_min.cor_x, p_max.cor_y, p_max.cor_z},
-                                          vector_t {p_min.cor_x, p_min.cor_y, p_max.cor_z},
-                                          vector_t {p_max.cor_x, p_min.cor_y, p_max.cor_z},
-                                          vector_t {p_max.cor_x, p_max.cor_y, p_min.cor_z},
-                                          vector_t {p_min.cor_x, p_max.cor_y, p_min.cor_z},
-                                          vector_t {p_min.cor_x, p_min.cor_y, p_min.cor_z},
-                                          vector_t {p_max.cor_x, p_min.cor_y, p_min.cor_z}};
-
-
-    // distribution of triangles into new subspaces
-    for (const auto& n_tr : num_triangles)
+    while (!stack.empty())
     {
-        triangle_t<TypeNum>& tr = array_triangle_[n_tr];
-        for (std::size_t i = 0; i < OCTREE_CHILD_COUNT; i++)
+        StackFrame frame = stack.top();
+        stack.pop();
+
+        int depth_recursion = frame.depth_recursion + 1;
+
+        if (frame.num_triangles.size() <= OPTIMAL_NUM_TR_IN_SPACE || 
+            depth_recursion > MAX_VALUE_DEEP_RECURSION)
         {
-            if (tr.triangle_lie_in_space (central_point, array_point[i]))
+            array_leaf_tree_.push_back(frame.num_triangles);
+            continue;
+        }
+
+        vector_t<TypeNum> central_point = (frame.p_min + frame.p_max) / 2;
+
+        std::array<std::vector<std::size_t>, OCTREE_CHILD_COUNT> array_space{};
+        std::array<vector_t<TypeNum>, OCTREE_CHILD_COUNT> array_point = {
+            vector_t {frame.p_max.cor_x, frame.p_max.cor_y, frame.p_max.cor_z},
+            vector_t {frame.p_min.cor_x, frame.p_max.cor_y, frame.p_max.cor_z},
+            vector_t {frame.p_min.cor_x, frame.p_min.cor_y, frame.p_max.cor_z},
+            vector_t {frame.p_max.cor_x, frame.p_min.cor_y, frame.p_max.cor_z},
+            vector_t {frame.p_max.cor_x, frame.p_max.cor_y, frame.p_min.cor_z},
+            vector_t {frame.p_min.cor_x, frame.p_max.cor_y, frame.p_min.cor_z},
+            vector_t {frame.p_min.cor_x, frame.p_min.cor_y, frame.p_min.cor_z},
+            vector_t {frame.p_max.cor_x, frame.p_min.cor_y, frame.p_min.cor_z}
+        };
+
+        for (const auto& n_tr : frame.num_triangles)
+        {
+            triangle_t<TypeNum>& tr = array_triangle_[n_tr];
+            for (std::size_t i = 0; i < OCTREE_CHILD_COUNT; i++)
             {
-                array_space[i].push_back (n_tr);
+                if (tr.triangle_lie_in_space(central_point, array_point[i]))
+                {
+                    array_space[i].push_back(n_tr);
+                }
             }
         }
-    }
 
-    // for non-empty subspaces we call a recursive partition
-    for (std::size_t i = 0; i < OCTREE_CHILD_COUNT; i++)
-    {
-        if (!array_space[i].empty())
+        for (std::size_t i = 0; i < OCTREE_CHILD_COUNT; i++)
         {
-            recursive_construction_grid (central_point, array_point[i], 
-                                         array_space[i], depth_recursion);
+            if (!array_space[i].empty())
+            {
+                stack.push({central_point, array_point[i], array_space[i], depth_recursion});
+            }
         }
     }
 }
